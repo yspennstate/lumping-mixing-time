@@ -28,4 +28,6 @@ The lower bounds come from a random walk on a weighted comb with 2N+2 states, fo
   example (`python code/lumping_checks.py data/lumping_checks.json`; standard library only).
 - `data/lumping_checks.json`: its output.
 
+An archived copy of the paper is at https://doi.org/10.5281/zenodo.24147769.
+
 The paper is part of the Math Brain project: https://github.com/yspennstate/math-brain-public
