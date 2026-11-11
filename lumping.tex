@@ -1,0 +1,370 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,amsthm,booktabs}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\tmix}{\tau_1^{(2)}}
+\newcommand{\hE}{\widehat{\E}}
+\newcommand{\hw}{\widehat{w}}
+\newcommand{\hpi}{\widehat{\pi}}
+\newcommand{\hI}{\widehat{I}}
+\newcommand{\hA}{\widehat{A}}
+\newcommand{\hX}{\widehat{X}}
+\newcommand{\lra}{\leftrightarrow}
+
+\title[Lumping and the mixing time of a reversible chain]{Lumping and the mixing time of a reversible chain:
+the dependence on the number of states}
+\author{Yitzchak Shmalo}
+\date{November 2026}
+
+\begin{document}
+\begin{abstract}
+Aldous and Fill asked whether the stopping-rule mixing time $\tmix$ of a chain obtained from a reversible Markov
+chain by lumping states is at most an absolute constant times that of the original chain. Hermon and Peres answered
+the question in the negative: for random walks on graphs of bounded degree, lumping can increase the mixing time by a
+factor of the order of the logarithm of the number of vertices, and by no more. We consider general reversible chains
+with $n$ states and show that the largest possible factor $K(n)$ satisfies
+$\lfloor (n-2)/2\rfloor\le K(n)\le n-1$. The upper bound follows from standard inequalities and from the inequality
+$\tau_2\le\tmix$ between the relaxation time and the stopping-rule mixing time, for which we give a short proof;
+the lower bound comes from an explicit random walk on a weighted comb. We also show that lumping increases the mean
+hitting time of a set $A$ by a factor of at most $n-|A|$, and that this bound cannot be improved by more than a factor
+of about two.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+Let $I$ be a finite set with $n\ge2$ elements and let $(w_{xy})_{x,y\in I}$ be a symmetric array of non-negative
+weights, loops $w_{xx}>0$ being allowed, such that the graph with edges $\{x,y\}$, $w_{xy}>0$, is connected. Put
+$w_x=\sum_y w_{xy}$ and $w=\sum_x w_x$. The random walk on this network is the Markov chain $X$ on $I$ with transition
+probabilities $p_{xy}=w_{xy}/w_x$; it is reversible with stationary distribution $\pi_x=w_x/w$, and every irreducible
+reversible chain on $I$ is of this form. We write $T_y=\inf\{t\ge0:X_t=y\}$ for the hitting time of a state $y$,
+$T_A=\inf\{t\ge0:X_t\in A\}$ for the hitting time of a set $A$, so that $T_y=0$ for the walk started at $y$, and $\E_\mu$ for expectation for the chain started from the distribution $\mu$.
+
+Given a map $f$ from $I$ onto a set $\hI$, the \emph{induced chain} $\hX$ is the random walk on $\hI$ with weights
+\[
+\hw_{ab}=\sum_{x\in f^{-1}(a)}\ \sum_{y\in f^{-1}(b)} w_{xy},\qquad a,b\in\hI .
+\]
+Its transition probabilities are $\Prob_\pi(f(X_1)=b\mid f(X_0)=a)$ and its stationary distribution is
+$\hpi_a=\pi(f^{-1}(a))$; this is the chain of Aldous and Fill~\cite[Section~4.6.1]{AF}. In the language of networks,
+the vertices with the same value of $f$ are glued together. We say that $\hX$ is obtained from $X$ by lumping, and
+write $\hE$ and $\widehat{T}$ for its expectations and hitting times.
+
+The parameter of~\cite[Chapter~4]{AF} that we study is
+\[
+\tmix=\max_{i\in I}\ \min_{U}\ \E_iU ,
+\]
+where the minimum is over all stopping times $U$, possibly randomized with a randomization independent of the future
+of the chain, such that $X_U$ has distribution $\pi$ under
+$\Prob_i$. Lov\'asz and Winkler~\cite{LW95} showed that the minimum is attained and found its value
+(see also~\cite[Theorem~9.4]{AF}), so that
+\begin{equation}\label{eq:lw}
+\tmix=\max_{i,j\in I}\bigl(\E_iT_j-\E_\pi T_j\bigr).
+\end{equation}
+For reversible chains $\tmix$ is equivalent, up to absolute constants, to the total variation mixing time of the
+chain in continuous time~\cite{Aldous82}, \cite[Theorem~4.6]{AF}; see also~\cite{LW98}.
+
+The maximal mean commute time $\tau^*=\max_{i,j}(\E_iT_j+\E_jT_i)$, the average hitting time
+$\tau_0=\sum_j\pi_j\E_iT_j$ (which does not depend on $i$), the relaxation time $\tau_2=1/(1-\lambda_2)$, where
+$\lambda_2$ is the second largest eigenvalue of $(p_{xy})$, and the Cheeger time constant $\tau_c$ do not increase
+under lumping~\cite[Proposition~4.44]{AF}. For the mixing time the matter was left open:
+
+\smallskip
+\noindent\textbf{Open Problem 4.45 of~\cite{AF}.} \emph{Is the value of $\tmix$ in an induced chain bounded by $K$
+times the value of $\tmix$ in the original chain, for some absolute constant $K$? For $K=1$?}
+\smallskip
+
+Hermon and Peres~\cite[Theorem~3(c)]{HP} answered both questions in the negative. They construct graphs $G_n$ of
+bounded degree for which lumping together certain pairs of vertices increases the total variation mixing time of the
+lazy simple random walk by a factor of order $\log|V(G_n)|$. Lumping does not increase the relaxation time, and the
+mixing time of a lazy reversible chain is bounded below by a constant multiple of the relaxation time and above by a
+constant multiple of the relaxation time multiplied by $\log(1/\min_x\pi_x)$; hence this is the largest possible
+order in that setting~\cite[Remark~1.8]{HP}.
+
+For a random walk on a weighted network $\min_x\pi_x$ can be arbitrarily small, and the bound in terms of
+$\log(1/\min_x\pi_x)$ says nothing about the dependence on the number of states. This note determines that dependence
+up to a factor of about two. Let
+\[
+K(n)=\sup\ \frac{\tmix(\hX)}{\tmix(X)} ,
+\]
+the supremum being over all reversible chains $X$ with at least two and at most $n$ states and all induced chains
+$\hX$ of $X$.
+
+\begin{theorem}\label{thm:main}
+For every $n\ge2$,
+\[
+\max\Bigl(1,\Bigl\lfloor\frac{n-2}{2}\Bigr\rfloor\Bigr)\ \le\ K(n)\ \le\ n-1 .
+\]
+\end{theorem}
+
+The upper bound is a chain of four inequalities, three of which are in~\cite{AF}. The fourth is the following
+comparison of the relaxation time with the stopping-rule mixing time, in which the constant is one; whether this holds
+is asked in~\cite[Open Problem~4.48(b)]{AF}. Comparisons of the two quantities up to absolute constants are
+in~\cite{Aldous82,LW98}.
+
+\begin{lemma}\label{lem:relax}
+Let $\lambda<1$ be a real eigenvalue of the transition matrix of an irreducible chain on a finite set, with a real
+eigenfunction $g$, and let $i$ be a state at which $|g|$ is largest. If $U$ is a stopping time such that $X_U$ has the
+stationary distribution $\pi$ under $\Prob_i$, then $\E_iU\ge 1/(1-\lambda)$. In particular $\tau_2\le\tmix$ for
+every reversible chain.
+\end{lemma}
+
+Equality $\tau_2=\tmix$ holds for every chain with two states and for the simple random walk on a complete graph.
+
+The lower bound in Theorem~\ref{thm:main} is approached along a family of random walks on a weighted comb with $2N+2$
+states, described in Section~\ref{sec:comb}; lumping each tooth of the comb with a vertex of the spine multiplies
+$\tmix$ by a factor that can be made arbitrarily close to $N$. In these examples the stationary distribution is very
+far from uniform, in agreement with the bound of~\cite{HP}; see Remark~\ref{rem:pimin}.
+
+The mechanism is a one-sided hitting time. Aldous and Fill observe~\cite[Section~4.6.1]{AF} that, although commute
+times decrease under lumping, a mean hitting time may increase, and give an example on four vertices where it
+doubles. The next proposition bounds the increase for hitting times of sets.
+
+\begin{proposition}\label{prop:hit}
+Let $\hX$ be the chain induced from $X$ by $f:I\to\hI$, let $\hA$ be a non-empty proper subset of $\hI$ and
+$A=f^{-1}(\hA)$. Then for every $a\in\hI\setminus\hA$
+\[
+\hE_a\widehat{T}_{\hA}\ \le\ \sum_{y\in I\setminus A}\E_yT_A\ \le\ (n-|A|)\max_{y\in I}\E_yT_A .
+\]
+For every $N\ge1$ and $\varepsilon>0$ there is a chain with $n=2N+2$ states, an induced chain and a set $A$
+with one element such that $\hE_a\widehat{T}_{\hA}\ge(N-\varepsilon)\max_y\E_yT_A$ for some $a$.
+\end{proposition}
+
+Lemma~\ref{lem:relax} and the upper bound of Theorem~\ref{thm:main} are proved in Section~\ref{sec:upper}, the lower
+bound in Section~\ref{sec:comb} and Proposition~\ref{prop:hit} in Section~\ref{sec:hit}. We do not know whether
+$K(n)/n$ converges, nor the value of $K(4)$; an example with four states and ratio above $1.27$ is in
+Remark~\ref{rem:four}.
+
+\section{The upper bound}\label{sec:upper}
+
+\begin{proof}[Proof of Lemma~\ref{lem:relax}]
+Replacing $g$ by a multiple we may assume that $g(i)=1=\max_x|g(x)|$. Since $Pg=\lambda g$, the process
+\[
+M_t=g(X_t)+(1-\lambda)\sum_{s<t}g(X_s),\qquad t\ge0,
+\]
+is a martingale with $M_0=1$ under $\Prob_i$, with respect to the filtration generated by the chain and by the
+randomization used by $U$. We may assume that $\E_iU<\infty$. The increments of $M$ are bounded by $2$, so the optional
+stopping theorem gives $\E_iM_U=1$. As $\lambda\ne1$, the function $g$ is orthogonal to the constants in $L^2(\pi)$
+when the chain is reversible, and in general $\sum_x\pi_xg(x)=\sum_x\pi_x(Pg)(x)=\lambda\sum_x\pi_xg(x)$ forces
+$\sum_x\pi_xg(x)=0$. Hence $\E_ig(X_U)=0$ and
+\[
+1=(1-\lambda)\,\E_i\sum_{s<U}g(X_s)\le(1-\lambda)\,\E_iU .
+\]
+For a reversible chain all eigenvalues are real; taking $\lambda=\lambda_2$ gives $\tmix\ge\min_U\E_iU\ge\tau_2$.
+\end{proof}
+
+\begin{proof}[Proof of the upper bound in Theorem~\ref{thm:main}]
+Let $X$ have $m\le n$ states and let $\hX$ be an induced chain. We claim that
+\begin{equation}\label{eq:chain}
+\tmix(\hX)\ \le\ \tau_0(\hX)\ \le\ \tau_0(X)\ \le\ (m-1)\,\tau_2(X)\ \le\ (m-1)\,\tmix(X).
+\end{equation}
+For the first inequality, choose a state $J$ of $\hX$ with distribution $\hpi$, independently of the chain, and stop
+at the hitting time of $J$; the chain is then in the stationary distribution, and the mean of this stopping time is
+$\tau_0(\hX)$ from every starting state~\cite[Section~4.3]{AF}. The second inequality is part of the contraction
+principle~\cite[Proposition~4.44]{AF}: by the random target lemma
+$\tau_0=\tfrac12\sum_{x,y}\pi_x\pi_y(\E_xT_y+\E_yT_x)$, the commute time $\E_xT_y+\E_yT_x$ equals $w$ times the
+effective resistance between $x$ and $y$, and gluing vertices does not increase effective resistances. The third is
+the eigentime identity $\tau_0=\sum_{k\ge2}(1-\lambda_k)^{-1}$~\cite[Proposition~3.13 and Lemma~4.24]{AF}. The fourth
+is Lemma~\ref{lem:relax}. If $\hX$ has one state then $\tmix(\hX)=0$, and $\tmix(X)\ge\tau_2(X)\ge\frac12$, so the
+ratio is well defined; hence $K(n)\le n-1$.
+\end{proof}
+
+\begin{remark}\label{rem:pimin}
+Write $\pi_*=\min_x\pi_x$. In discrete time $\tmix\le\frac{4e}{e-1}\,\tau_2\,(1+\frac12\log(1/\pi_*))$
+by~\cite[Lemma~4.23]{AF}. Since $\tau_2(\hX)\le\tau_2(X)$ and $\min_a\hpi_a\ge\pi_*$, Lemma~\ref{lem:relax} gives
+\[
+\tmix(\hX)\ \le\ \frac{4e}{e-1}\Bigl(1+\frac12\log\frac1{\pi_*}\Bigr)\tmix(X),
+\]
+which is the form taken for $\tmix$ by the bound of Hermon and Peres~\cite[Remark~1.8]{HP}. Together with
+Theorem~\ref{thm:main}, the factor is at most $\min\bigl(n-1,\ \frac{4e}{e-1}(1+\frac12\log(1/\pi_*))\bigr)$. For the
+simple random walk on a graph with bounded degrees $\log(1/\pi_*)$ is of order $\log n$, and the examples
+of~\cite{HP} show that this order is attained. In the comb of Section~\ref{sec:comb} with the parameters of
+Table~\ref{tab:comb}, $\log(1/\pi_*)$ is of order $N\log t$.
+\end{remark}
+
+\section{The comb}\label{sec:comb}
+We use the following elementary fact about hitting times across a bridge.
+
+\begin{lemma}\label{lem:bridge}
+Let $x\ne y$ be states with $w_{xy}>0$ such that every path from $x$ to $y$ in the network uses the edge $\{x,y\}$,
+and let $S$ be the set of states that can be reached from $x$ without visiting $y$. Then
+$\E_xT_y=w(S)/w_{xy}$, where $w(S)=\sum_{u\in S}w_u$.
+\end{lemma}
+\begin{proof}
+Up to time $T_y$ the walk started at $x$ stays in $S$, so $\E_xT_y$ is the same for the network on $S\cup\{y\}$ in
+which $y$ keeps only the edge to $x$. There the stationary probability of $y$ is $w_{xy}/(w(S)+w_{xy})$, so the mean
+return time to $y$ is $1+w(S)/w_{xy}$, and it also equals $1+\E_xT_y$.
+\end{proof}
+
+Fix an integer $N\ge1$ and real numbers $r\ge2$, $\alpha>0$, $h\ge1$ and $\ell\ge0$. The \emph{comb} is the network
+on the $2N+2$ states $z_0,\dots,z_N$, $y_0,\dots,y_{N-1}$, $c$ with the weights
+\[
+w_{z_kz_{k+1}}=r^k,\quad w_{y_kz_{k+1}}=\alpha r^k,\quad w_{y_ky_k}=(h-1)\alpha r^k\quad(0\le k<N),\qquad
+w_{z_Nc}=r^N,\quad w_{cc}=\ell,
+\]
+and all other weights zero. The spine $z_0,\dots,z_N,c$ carries conductances that grow geometrically towards $c$; the
+tooth $y_k$ hangs from $z_{k+1}$, and the walk leaves it with probability $1/h$ at each step. The map $f$ sends $z_k$
+and $y_k$ to the same point $b_k$ for $0\le k<N$, sends $z_N$ to $b_N$ and $c$ to $c$. Put
+\[
+\delta=\frac{2+\alpha+\alpha h}{r-1},\qquad \rho=\frac{w_c}{r^N}=1+\frac{\ell}{r^N},\qquad
+M=h+(N+1)(1+\delta),\qquad B=h+(N+2)(1+\delta).
+\]
+
+\begin{proposition}\label{prop:comb}
+For the comb $X$ and its induced chain $\hX$,
+\begin{enumerate}
+\item[(i)] $\max_x\E_xT_c\le M$;
+\item[(ii)] $\tmix(X)\le\max(B,\ M+B-\rho)$, so that $\tmix(X)\le B$ when $\rho\ge M$;
+\item[(iii)] $\hE_{b_0}\widehat{T}_c\ge Nh\alpha/(1+\alpha)$ and $\tmix(\hX)\ge\pi_c\,Nh\alpha/(1+\alpha)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The comb is a tree with loops. The vertex weights are $w_{z_0}=1$, $w_{z_k}=r^{k-1}(1+r+\alpha)$ for
+$1\le k\le N$ and $w_{y_k}=h\alpha r^k$. Write $z_{N+1}=c$. For $0\le k\le N$ let $S_k$ be the total weight of the
+states $z_0,\dots,z_k,y_0,\dots,y_{k-1}$, which are those separated from $c$ by the edge $\{z_k,z_{k+1}\}$. Since
+$(1+r+\alpha+h\alpha)/(r-1)=1+\delta$,
+\begin{equation}\label{eq:Sk}
+S_k=1+(1+\delta)(r^k-1)\le(1+\delta)\,r^k .
+\end{equation}
+
+(i) By Lemma~\ref{lem:bridge}, $\E_{z_k}T_{z_{k+1}}=S_k/r^k\le1+\delta$ and $\E_{y_k}T_{z_{k+1}}=h$. Adding along the
+path to $c$ gives $\E_{z_k}T_c\le(N+1)(1+\delta)$ and $\E_{y_k}T_c\le h+N(1+\delta)$.
+
+(ii) Write $H(x,j)=\E_xT_j$ and $d(x,j)=H(x,j)-\E_\pi T_j=\sum_k\pi_k\bigl(H(x,j)-H(k,j)\bigr)$; by~\eqref{eq:lw},
+$\tmix(X)=\max_{x,j}d(x,j)$. For three vertices $x,k,j$ of a tree let $m(x,k,j)$ be the vertex common to the three
+paths joining them. A walk from $x$ to $j$ passes through $m=m(x,k,j)$, so $H(x,j)=H(x,m)+H(m,j)$, and likewise from
+$k$; hence
+\begin{equation}\label{eq:median}
+H(x,j)-H(k,j)=H(x,m)-H(k,m)\le H(x,m).
+\end{equation}
+If $j=c$ then $d(x,c)\le H(x,c)\le M$ by (i).
+
+Let $x=c$ and $j\ne c$. Define the level of $z_p$ to be $p$ and the level of $y_p$ to be $p+1$, and let $q$ be the
+level of $j$. By Lemma~\ref{lem:bridge}, $\E_{z_{t+1}}T_{z_t}=(w-S_t)/r^t\le w\,r^{-t}$, so for $0\le p\le N$
+\begin{equation}\label{eq:down}
+H(c,z_p)\le w\sum_{t\ge p}r^{-t}=\frac{r}{r-1}\,w\,r^{-p}\le 2w\,r^{-p},
+\end{equation}
+and $\E_{z_{p+1}}T_{y_p}=(w-w_{y_p})/(\alpha r^p)\le w/(\alpha r^p)$. By~\eqref{eq:median},
+$d(c,j)\le\sum_{k\ne c}\pi_kH(c,m(c,k,j))$. If the level $p$ of $k$ exceeds $q$ then $m(c,k,j)=z_p$; the two states
+of level $p$ have total weight $r^{p-1}(1+r+\alpha+h\alpha)$, so by the geometric series in~\eqref{eq:down} they
+contribute at most $(1+r+\alpha+h\alpha)/(r-1)=1+\delta$, and there are $N-q$ such levels. If the level of $k$ is at
+most $q$ and $k\ne j$ then $m(c,k,j)=z_q$; the same holds for $k=j$ when $j=z_q$, while for $k=j=y_{q-1}$ the median
+is $j$ and $H(c,j)=H(c,z_q)+H(z_q,y_{q-1})$. The states of level at most $q$, with $j$ among them, have total weight
+$S_q$, so by~\eqref{eq:Sk} and~\eqref{eq:down} the terms $\pi_kH(c,z_q)$ contribute at most $2(1+\delta)$. If
+$j=y_{q-1}$ there is in addition the term $\pi_jH(z_q,y_{q-1})$, which is at most $w_{y_{q-1}}/(\alpha r^{q-1})=h$.
+Altogether
+\[
+d(c,j)\le h+(N-q+2)(1+\delta)\le B .
+\]
+
+Let $x\ne c$ and $j\ne c$. Since $c$ is a leaf, $m=m(x,c,j)\ne c$, and $m$ lies on the path from $x$ to $c$ and on the
+path from $c$ to $j$. By~\eqref{eq:median}, (i) and Lemma~\ref{lem:bridge},
+\[
+H(x,j)-H(c,j)=H(x,m)-H(c,m)\le H(x,c)-H(c,z_N)\le M-\rho ,
+\]
+so $d(x,j)=H(x,j)-H(c,j)+d(c,j)\le M-\rho+B$. As $d(c,c)\le0$ and $M\le B$, this proves (ii).
+
+(iii) The induced chain is a random walk on the path $b_0,\dots,b_N,c$ with $\hw_{b_kb_{k+1}}=(1+\alpha)r^k$ for
+$k<N$, $\hw_{b_Nc}=r^N$ and loops. By Lemma~\ref{lem:bridge}, for $k<N$
+\[
+\hE_{b_k}\widehat{T}_{b_{k+1}}\ \ge\ \frac{\hw_{b_k}}{(1+\alpha)r^k}\ \ge\ \frac{w_{y_k}}{(1+\alpha)r^k}
+=\frac{h\alpha}{1+\alpha},
+\]
+and the sum over $k$ gives the first assertion. On a path $\hE_{b_0}\widehat{T}_c\ge\hE_a\widehat{T}_c$ for every
+$a$, so by~\eqref{eq:lw}
+\[
+\tmix(\hX)\ \ge\ \sum_a\hpi_a\bigl(\hE_{b_0}\widehat{T}_c-\hE_a\widehat{T}_c\bigr)\ \ge\ \hpi_c\,\hE_{b_0}\widehat{T}_c ,
+\]
+and $\hpi_c=\pi_c$.
+\end{proof}
+
+For the parameters used below, where $r$ is much larger than $\alpha h$, a walk on the spine of the comb rarely
+enters a tooth, and the teeth cost a walk about one sojourn, of mean $h$, on its way to $c$. After lumping, every
+point of the spine below $z_N$ inherits the loop of a tooth, and when $\alpha$ is large the delay is about $h$ at
+each of the $N$ levels.
+
+\begin{proof}[Proof of the lower bound in Theorem~\ref{thm:main}]
+The identity map gives $K(n)\ge1$. Let $N\ge1$ and $t\ge2$, and take $\alpha=h=t$, $r=1+t^3$ and $\ell$ so large
+that $\rho\ge M$ and $\pi_c\ge1-1/t$. Then $\delta=(2+t+t^2)/t^3\le1$ and, by Proposition~\ref{prop:comb},
+\[
+\frac{\tmix(\hX)}{\tmix(X)}\ \ge\ \Bigl(1-\frac1t\Bigr)\frac{N\,t^2}{(1+t)\bigl(t+(N+2)(1+\delta)\bigr)},
+\]
+which tends to $N$ as $t\to\infty$. The comb has $2N+2$ states, so $K(n)\ge N$ whenever $n\ge2N+2$.
+\end{proof}
+
+Table~\ref{tab:comb} gives the values for $\alpha=h=t=256$, $r=1+t^3$ and $w_c=(N+2)t^2(w-w_c)$, computed in
+rational arithmetic from~\eqref{eq:lw} and rounded.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{rrrrr}
+\toprule
+$N$ & states & $\tmix(X)$ & $\tmix(\hX)$ & ratio\\
+\midrule
+1 & 4 & 257.004 & 256.012 & 0.9961\\
+2 & 6 & 258.008 & 511.019 & 1.9806\\
+4 & 10 & 260.016 & 1021.035 & 3.9268\\
+8 & 18 & 264.031 & 2041.066 & 7.7304\\
+\bottomrule
+\end{tabular}
+\caption{The comb with $\alpha=h=256$ and its induced chain.}\label{tab:comb}
+\end{table}
+
+\begin{remark}\label{rem:four}
+The comb with $N=1$ has four states, and with the parameters of Table~\ref{tab:comb} its ratio is below one. A
+different chain on four states has ratio above
+one: take $I=\{0,1,2,3\}$ with $w_{02}=w_{12}=1$, $w_{13}=109$, $w_{23}=54$, $w_{11}=117$, $w_{33}=10000$, and lump
+the states $2$ and $3$. Then
+\[
+\tmix(X)=\frac{149731115}{63193903}=2.3693\ldots,\qquad \tmix(\hX)=\frac{346900}{114917}=3.0187\ldots,
+\]
+both attained in~\eqref{eq:lw} at $(i,j)=(1,0)$, and the ratio is $419679620/329408453=1.2740\ldots$. Hence
+$K(4)>1.27$.
+\end{remark}
+
+\section{Hitting times of sets}\label{sec:hit}
+For a non-empty proper subset $Z$ of $I$ and $x,y\notin Z$ let $G_Z(x,y)$ be the expected number of visits to $y$ before $T_Z$
+for the walk started at $x$, and let $R(y\lra Z)$ be the effective resistance between $y$ and $Z$ in the network with
+conductances $w_{uv}$, $u\ne v$. Then~\cite[Section~2.2]{LP}
+\begin{equation}\label{eq:green}
+\E_xT_Z=\sum_{y\notin Z}G_Z(x,y),\qquad G_Z(x,y)=\Prob_x(T_y<T_Z)\,G_Z(y,y),\qquad G_Z(y,y)=w_y\,R(y\lra Z).
+\end{equation}
+The last identity holds in the presence of loops: the walk at $y$ reaches $Z$ before returning to $y$ with
+probability $1/(w_yR(y\lra Z))$, and a loop at $y$ changes $w_y$ only.
+
+\begin{proof}[Proof of Proposition~\ref{prop:hit}]
+The network of $\hX$ is obtained from that of $X$ by gluing together the vertices in each set $f^{-1}(b)$; edges
+inside such a set become loops. By Rayleigh's monotonicity principle~\cite[Section~2.4]{LP} gluing does not increase
+effective resistances, so $\widehat{R}(b\lra\hA)\le R(y\lra A)$ for every $b\in\hI\setminus\hA$ and every
+$y\in f^{-1}(b)$. With~\eqref{eq:green} applied to both chains,
+\begin{align*}
+\hE_a\widehat{T}_{\hA}\ &\le\ \sum_{b\notin\hA}\hw_b\,\widehat{R}(b\lra\hA)
+=\sum_{b\notin\hA}\ \sum_{y\in f^{-1}(b)}w_y\,\widehat{R}(b\lra\hA)\\
+&\le\ \sum_{y\notin A}w_y\,R(y\lra A)=\sum_{y\notin A}G_A(y,y)\ \le\ \sum_{y\notin A}\E_yT_A .
+\end{align*}
+For the second statement take the comb with $A=\{c\}$, $\hA=\{c\}$ and $a=b_0$. By
+Proposition~\ref{prop:comb}(i) and~(iii),
+\[
+\frac{\hE_{b_0}\widehat{T}_c}{\max_y\E_yT_c}\ \ge\ \frac{Nh\alpha}{(1+\alpha)\bigl(h+(N+1)(1+\delta)\bigr)},
+\]
+and with $\alpha=h=t$, $r=1+t^3$ the right-hand side tends to $N$ as $t\to\infty$.
+\end{proof}
+
+The program in the repository named below evaluates both sides of every inequality of Proposition~\ref{prop:comb} in
+rational arithmetic for $N\le8$ and $\alpha=h=t\le256$, and does the same for~\eqref{eq:chain} with $\tau_2$ omitted
+and for Proposition~\ref{prop:hit} on $400$ random networks with three to six states and random partitions.
+
+\input{tail}
+
+\begin{thebibliography}{9}
+\input{bib_main}
+\input{bib_own}
+\end{thebibliography}
+\end{document}
