@@ -93,7 +93,7 @@ bounded degree for which lumping together certain pairs of vertices increases th
 lazy simple random walk by a factor of order $\log|V(G_n)|$. Lumping does not increase the relaxation time, and the
 mixing time of a lazy reversible chain is bounded below by a constant multiple of the relaxation time and above by a
 constant multiple of the relaxation time multiplied by $\log(1/\min_x\pi_x)$; hence this is the largest possible
-order in that setting~\cite[Remark~1.8]{HP}.
+order in that setting, by the argument given in~\cite[Remark~1.8]{HP} for perturbations of the edge weights.
 
 For a random walk on a weighted network $\min_x\pi_x$ can be arbitrarily small, and the bound in terms of
 $\log(1/\min_x\pi_x)$ says nothing about the dependence on the number of states. This paper determines that dependence
@@ -385,13 +385,17 @@ $2^{m-q}\le2^{n-q}$, and $U(n)\le\max(1,n-2)$, because each term is at most $q-1
 \end{proof}
 
 \begin{remark}\label{rem:pimin}
-Write $\pi_*=\min_x\pi_x$. In discrete time $\tmix\le\frac{4e}{e-1}\,\tau_2\,(1+\frac12\log(1/\pi_*))$
-by~\cite[Lemma~4.23]{AF}. Since $\tau_2(\hX)\le\tau_2(X)$ and $\min_{\hat x}\hpi_{\hat x}\ge\pi_*$,
+Write $\pi_*=\min_x\pi_x$. Then $\tmix\le\frac{4e}{e-1}\,\tau_2\,(1+\frac12\log(1/\pi_*))$: in
+continuous time this combines $\tmix\le\frac{e}{e-1}\tau_1^{(1)}$, $\tau_1^{(1)}\le4\tau_1$ and
+$\tau_1\le\tau_2(1+\frac12\log(1/\pi_*))$ \cite[Lemmas~4.12, 4.11 and~4.23]{AF}, where $\tau_1$ and $\tau_1^{(1)}$ are the first times at which the
+largest total variation distance between the distributions from two starting states and the separation from $\pi$
+fall to $e^{-1}$~\cite[Section~4.3]{AF}, and $\tmix$ of the discrete-time chain
+is at most that of its continuization~\cite[Lemma~4.16]{AF}. Since $\tau_2(\hX)\le\tau_2(X)$ and $\min_{\hat x}\hpi_{\hat x}\ge\pi_*$,
 Lemma~\ref{lem:relax} gives
 \[
 \tmix(\hX)\ \le\ \frac{4e}{e-1}\Bigl(1+\frac12\log\frac1{\pi_*}\Bigr)\tmix(X),
 \]
-which is the form taken for $\tmix$ by the bound of Hermon and Peres~\cite[Remark~1.8]{HP}. Together with
+which is the form taken for $\tmix$ by the bound used by Hermon and Peres in~\cite[Remark~1.8]{HP}. Together with
 Theorem~\ref{thm:main}, the factor is at most $\min\bigl(U(n),\ \frac{4e}{e-1}(1+\frac12\log(1/\pi_*))\bigr)$. For the
 simple random walk on a graph with bounded degrees $\log(1/\pi_*)$ is of order $\log n$, and the examples
 of~\cite{HP} show that this order is attained. In the comb of Section~\ref{sec:comb}, $\log(1/\pi_*)$ is of order
