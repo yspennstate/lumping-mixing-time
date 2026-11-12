@@ -17,11 +17,13 @@
 \newcommand{\hI}{\widehat{I}}
 \newcommand{\hA}{\widehat{A}}
 \newcommand{\hX}{\widehat{X}}
+\newcommand{\hM}{\widehat{M}}
+\newcommand{\hS}{\widehat{S}}
+\newcommand{\hF}{\widehat{F}}
 \newcommand{\lra}{\leftrightarrow}
-\DeclareMathOperator{\med}{med}
+\newcommand{\one}{\mathbf{1}}
 
-\title[Lumping and the mixing time of a reversible chain]{Lumping and the mixing time of a reversible chain:
-the dependence on the number of states}
+\title[Lumping and the mixing time]{Lumping and the mixing time of reversible chains with $n$ states}
 \author{Yitzchak Shmalo}
 \address{Einstein Institute of Mathematics, The Hebrew University of Jerusalem, Jerusalem, Israel}
 \date{November 2026}
@@ -33,40 +35,43 @@ the dependence on the number of states}
 Aldous and Fill asked whether lumping states of a reversible Markov chain can increase the stopping-rule mixing time
 $\tmix$ by more than an absolute constant factor. Hermon and Peres showed that for random walks on graphs of bounded
 degree the factor can be of the order of the logarithm of the number of vertices, and no larger. For reversible
-chains with $n$ states we show that the largest possible factor $K(n)$ satisfies
-$\lfloor (n-2)/2\rfloor\le K(n)\le n-2$ for $n\ge4$, and that $K(4)=2$. The upper bound rests on the inequality
-$\tau_2\le\tmix$ between the relaxation time and the mixing time, for which we give a short proof; the lower bound
-comes from a random walk on a weighted comb. We also show that lumping increases the mean hitting time of a set $A$
-by a factor of at most $n-|A|$, and that this bound is sharp up to a factor $2+o(1)$ as the number of states tends to
-infinity.
+chains with $n\ge4$ states we show that the largest possible factor $K(n)$ satisfies
+$\lfloor n/2\rfloor\le K(n)\le n-2$, and that $K(n)=\lfloor n/2\rfloor$ for $n\le6$ and for $n=8$. The upper bound
+rests on two facts: lumping two states multiplies $\tmix$ by less than $2$, a constant that cannot be lowered, and the
+relaxation time is at most $\tmix$. The lower bound comes from a random walk on a weighted comb. We also show that
+lumping increases the mean hitting time of a set $A$ by a factor of at most $n-|A|$, and that this bound is sharp up to
+a factor that tends to $2$ as $n\to\infty$.
 \end{abstract}
 \maketitle
 
 \section{Introduction}\label{sec:intro}
 Let $I$ be a finite set with $n\ge2$ elements and let $(w_{xy})_{x,y\in I}$ be a symmetric array of nonnegative
-weights, loops $w_{xx}>0$ being allowed, such that the graph with edges $\{x,y\}$, $w_{xy}>0$, is connected. Put
-$w_x=\sum_y w_{xy}$ and $w=\sum_x w_x$. The random walk on this network is the Markov chain $X$ on $I$ with transition
-probabilities $p_{xy}=w_{xy}/w_x$; it is reversible with stationary distribution $\pi_x=w_x/w$, and every irreducible
-reversible chain on $I$ is of this form. We write $T_y=\inf\{t\ge0:X_t=y\}$ for the hitting time of a state $y$,
-$T_A=\inf\{t\ge0:X_t\in A\}$ for the hitting time of a set $A$, so that $T_y=0$ for the walk started at $y$, and $\E_\mu$ for expectation for the chain started from the distribution $\mu$.
+weights, loops $w_{xx}>0$ being allowed, such that the graph with edges $\{x,y\}$, $x\ne y$, $w_{xy}>0$, is connected.
+Put $w_x=\sum_y w_{xy}$ and $w=\sum_x w_x$. The random walk on this network is the Markov chain $X$ on $I$ with
+transition probabilities $p_{xy}=w_{xy}/w_x$; it is reversible with stationary distribution $\pi_x=w_x/w$, and every
+irreducible reversible chain on $I$ is of this form. We write $T_y=\inf\{t\ge0:X_t=y\}$ for the hitting time of a
+state $y$ and $T_A=\inf\{t\ge0:X_t\in A\}$ for the hitting time of a set $A$, so that $T_y=0$ for the walk started at
+$y$, and $\E_\mu$ and $\Prob_\mu$ for expectation and probability for the chain started from the distribution $\mu$.
 
 Given a map $f$ from $I$ onto a set $\hI$, the \emph{induced chain} $\hX$ is the random walk on $\hI$ with weights
 \[
-\hw_{ab}=\sum_{x\in f^{-1}(a)}\ \sum_{y\in f^{-1}(b)} w_{xy},\qquad a,b\in\hI .
+\hw_{\hat x\hat y}=\sum_{x\in f^{-1}(\hat x)}\ \sum_{y\in f^{-1}(\hat y)} w_{xy},\qquad \hat x,\hat y\in\hI .
 \]
-Its transition probabilities are $\Prob_\pi(f(X_1)=b\mid f(X_0)=a)$ and its stationary distribution is
-$\hpi_a=\pi(f^{-1}(a))$; this is the chain of Aldous and Fill~\cite[Section~4.6.1]{AF}. In the language of networks,
-the vertices with the same value of $f$ are glued together. We say that $\hX$ is obtained from $X$ by lumping, and
-write $\hE$ and $\widehat{T}$ for its expectations and hitting times.
+Its transition probabilities are $\Prob_\pi(f(X_1)=\hat y\mid f(X_0)=\hat x)$ and its stationary distribution is
+$\hpi_{\hat x}=\pi(f^{-1}(\hat x))$; this is the chain of Aldous and Fill~\cite[Section~4.6.1]{AF}. In the language of
+networks, the states with the same value of $f$ are glued together. We say that $\hX$ is obtained from $X$ by
+lumping, and write $\hE$ and $\widehat{T}$ for its expectations and hitting times. If $g$ maps $\hI$ onto a third set,
+the chain induced from $\hX$ by $g$ is the chain induced from $X$ by $g\circ f$, as both have the weights
+$\sum w_{xy}$ over the preimages; so every lumping onto $q$ states of a chain with $m$ states is a composition of
+$m-q$ lumpings of two states.
 
 The parameter of~\cite[Chapter~4]{AF} that we study is
 \[
 \tmix=\max_{i\in I}\ \min_{U}\ \E_iU ,
 \]
 where the minimum is over all stopping times $U$, possibly randomized with a randomization independent of the future
-of the chain, such that $X_U$ has distribution $\pi$ under
-$\Prob_i$. Lov\'asz and Winkler~\cite{LW95} showed that the minimum is attained and found its value
-(see also~\cite[Theorem~9.4]{AF}), so that
+of the chain, such that $X_U$ has distribution $\pi$ under $\Prob_i$. Lov\'asz and Winkler~\cite{LW95} showed that the
+minimum is attained and found its value (see also~\cite[Theorem~9.4]{AF}), so that
 \begin{equation}\label{eq:lw}
 \tmix=\max_{i,j\in I}\bigl(\E_iT_j-\E_\pi T_j\bigr).
 \end{equation}
@@ -97,20 +102,44 @@ up to a factor that tends to two as $n\to\infty$. Let
 K(n)=\sup\ \frac{\tmix(\hX)}{\tmix(X)} ,
 \]
 the supremum being over all reversible chains $X$ with at least two and at most $n$ states and all induced chains
-$\hX$ of $X$.
+$\hX$ of $X$. Put $U(2)=1$ and
+\[
+U(n)=\max_{2\le q\le n-1}\ \min\bigl(2^{\,n-q},\ q-1\bigr)\qquad(n\ge3).
+\]
 
 \begin{theorem}\label{thm:main}
 For every $n\ge2$,
 \[
-\max\Bigl(1,\Bigl\lfloor\frac{n-2}{2}\Bigr\rfloor\Bigr)\ \le\ K(n)\ \le\ \max(1,n-2) .
+\Bigl\lfloor\frac n2\Bigr\rfloor\ \le\ K(n)\ \le\ U(n)\ \le\ \max(1,n-2) .
 \]
-Moreover $K(2)=K(3)=1$ and $K(4)=2$.
+In particular $K(n)=\lfloor n/2\rfloor$ for $2\le n\le6$ and for $n=8$, and $K(7)\in\{3,4\}$.
 \end{theorem}
 
-The upper bound is a chain of four inequalities, three of which are in~\cite{AF}. The fourth is the following
-comparison of the relaxation time with the stopping-rule mixing time, in which the constant is one; whether this holds
-is asked in~\cite[Open Problem~4.48(b)]{AF}. Comparisons of the two quantities up to absolute constants are
-in~\cite{Aldous82,LW98}.
+\begin{table}[tbp]
+\centering
+\begin{tabular}{lrrrrrrrrrrr}
+\toprule
+$n$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12\\
+\midrule
+$\lfloor n/2\rfloor$ & 1 & 1 & 2 & 2 & 3 & 3 & 4 & 4 & 5 & 5 & 6\\
+$U(n)$ & 1 & 1 & 2 & 2 & 3 & 4 & 4 & 5 & 6 & 7 & 8\\
+\bottomrule
+\end{tabular}
+\caption{The bounds of Theorem~\ref{thm:main} for small $n$.}\label{tab:bounds}
+\end{table}
+
+The upper bound combines two inequalities. The first concerns a single lumping of two states.
+
+\begin{theorem}\label{thm:merge}
+Let $\hX$ be obtained from $X$ by lumping two states and keeping the other states apart. Then
+$\tmix(\hX)<2\,\tmix(X)$, and the constant $2$ cannot be replaced by a smaller one.
+\end{theorem}
+
+Applied $m-q$ times, Theorem~\ref{thm:merge} bounds the factor by $2^{m-q}$ for a lumping of a chain with $m$ states
+onto $q$ states. The second inequality bounds the factor by $q-1$; it is a chain of four inequalities, three of which
+are in~\cite{AF}. The fourth is the following comparison of the relaxation time with the stopping-rule mixing time, in
+which the constant is one; whether this holds is asked in~\cite[Open Problem~4.48(b)]{AF}. Comparisons of the two
+quantities up to absolute constants are in~\cite{Aldous82,LW98}.
 
 \begin{lemma}\label{lem:relax}
 Let $\lambda<1$ be a real eigenvalue of the transition matrix of an irreducible chain on a finite set, with a real
@@ -121,41 +150,214 @@ every reversible chain.
 
 Equality $\tau_2=\tmix$ holds for every chain with two states and for the simple random walk on a complete graph.
 
-The lower bound in Theorem~\ref{thm:main} is approached along a family of random walks on a weighted comb with $2N+2$
-states, described in Section~\ref{sec:comb}; lumping each tooth of the comb with a vertex of the spine multiplies
-$\tmix$ by a factor that can be made arbitrarily close to $N$. In these examples the stationary distribution is very
-far from uniform, in agreement with the bound of~\cite{HP}; see Remark~\ref{rem:pimin}.
+The lower bound in Theorem~\ref{thm:main} is approached along a family of random walks on a weighted comb with $2N+4$
+states, described in Section~\ref{sec:comb}. Lumping each of $N$ teeth with a vertex of the spine, and the end of the
+spine with a heavy leaf, multiplies $\tmix$ by a factor that tends to $N+2$. With $N=0$ only two states are lumped and
+the factor tends to $2$, which shows that the constant in Theorem~\ref{thm:merge} is optimal. In these examples the
+stationary distribution is very far from uniform, in agreement with the bound of~\cite{HP}; see
+Remark~\ref{rem:pimin}.
 
-The mechanism is a one-sided hitting time. Aldous and Fill observe~\cite[Section~4.6.1]{AF} that, although commute
-times decrease under lumping, a mean hitting time may increase, and give an example on four vertices where it
-doubles. The next proposition bounds the increase for hitting times of sets.
+The comb uses $N+1$ lumpings of two states and reaches the factor $N+2$. We do not know whether a composition of
+several lumpings of two states can multiply $\tmix$ by more than one plus their number. If they cannot, the argument of
+Section~\ref{sec:upper} bounds the factor for a lumping onto $q$ states by $\min(m-q+1,q-1)\le\lfloor m/2\rfloor$, and
+then $K(n)=\lfloor n/2\rfloor$ for every $n$.
+
+The mechanism behind the lower bound is a one-sided hitting time. Aldous and Fill observe~\cite[Section~4.6.1]{AF}
+that, although commute times decrease under lumping, a mean hitting time may increase, and give an example on four
+vertices where it doubles. The next proposition bounds the increase for hitting times of sets.
 
 \begin{proposition}\label{prop:hit}
 Let $\hX$ be the chain induced from $X$ by $f:I\to\hI$, let $\hA$ be a non-empty proper subset of $\hI$ and
-$A=f^{-1}(\hA)$. Then for every $a\in\hI\setminus\hA$
+$A=f^{-1}(\hA)$. Then for every $\hat x\in\hI\setminus\hA$
 \[
-\hE_a\widehat{T}_{\hA}\ \le\ \sum_{y\in I\setminus A}\E_yT_A\ \le\ (n-|A|)\max_{y\in I}\E_yT_A .
+\hE_{\hat x}\widehat{T}_{\hA}\ \le\ \sum_{y\in I\setminus A}\E_yT_A\ \le\ (n-|A|)\max_{y\in I}\E_yT_A .
 \]
-For every $N\ge1$ and $\varepsilon>0$ there is a chain with $n=2N+2$ states, an induced chain and a set $A$
-with one element such that $\hE_a\widehat{T}_{\hA}\ge(N-\varepsilon)\max_y\E_yT_A$ for some $a$.
+For every $N\ge0$ and $\varepsilon>0$ there is a chain with $n=2N+4$ states, an induced chain and a set $A$ with two
+elements such that $\hE_{\hat x}\widehat{T}_{\hA}\ge(N+1-\varepsilon)\max_y\E_yT_A$ for some $\hat x$.
 \end{proposition}
 
-Lemma~\ref{lem:relax} and the upper bound of Theorem~\ref{thm:main} are proved in Section~\ref{sec:upper}, the lower
-bound and the value of $K(4)$ in Section~\ref{sec:comb} and Proposition~\ref{prop:hit} in Section~\ref{sec:hit}.
-We do not know whether $K(n)/n$ converges.
+Section~\ref{sec:pot} collects identities for hitting times, Theorem~\ref{thm:merge} is proved in
+Section~\ref{sec:merge}, Lemma~\ref{lem:relax} and the upper bound of Theorem~\ref{thm:main} in
+Section~\ref{sec:upper}, the lower bound in Section~\ref{sec:comb} and Proposition~\ref{prop:hit} in
+Section~\ref{sec:hit}.
+
+\section{Hitting-time potentials}\label{sec:pot}
+Throughout, $H(x,j)=\E_xT_j$ and $F_{ij}=\E_iT_j-\E_\pi T_j$, so that $\tmix=\max_{i,j}F_{ij}$ by~\eqref{eq:lw}.
+Functions on $I$ are column vectors; $\omega$ is the vector $(w_x)_{x\in I}$, $\one$ the constant vector $1$ and
+$\delta_x$ the indicator of $x$. The Laplacian $L$ has entries $L_{xy}=-w_{xy}$ for $x\ne y$ and
+$L_{xx}=\sum_{y\ne x}w_{xy}$, so that loops do not enter it, and the Dirichlet form is
+\[
+\mathcal E(g,g')=g^{\mathsf T}Lg'=\frac12\sum_{x,y}w_{xy}\,(g_x-g_y)(g'_x-g'_y).
+\]
+The kernel of $L$ consists of the constants, and $\one^{\mathsf T}Lg=0$ for every $g$. For a state $y$ and a set $Z$
+not containing it, $R(y\lra Z)$ is the effective resistance between $y$ and $Z$ in the network with conductances
+$w_{xy}$, $x\ne y$. For two states $u\ne v$ the function $h_x=\Prob_x(T_u<T_v)$ satisfies~\cite[Section~2.2]{LP}
+\begin{equation}\label{eq:harm}
+Lh=\frac{\delta_u-\delta_v}{R(u\lra v)},\qquad \mathcal E(h,h)=\frac1{R(u\lra v)} .
+\end{equation}
+
+Fix a state $o$. Since the network is connected, the matrix obtained from $L$ by deleting the row and the column of
+$o$ is invertible; let $\Gamma$ be its inverse, extended by zeros in the row and the column of $o$. Then $\Gamma$ is
+symmetric and $L\Gamma\delta_j=\delta_j-\delta_o$ for $j\ne o$, so that $\Gamma\delta_j$ is the voltage, vanishing at
+$o$, of the unit current flow from $j$ to $o$. Put $\zeta=\Gamma\omega$ and $\bar\zeta=\sum_x\pi_x\zeta_x$.
+
+\begin{lemma}\label{lem:pot}
+\begin{enumerate}
+\item[(i)] $H(i,j)=\zeta_i-\zeta_j-w(\Gamma_{ij}-\Gamma_{jj})$ for all $i,j$; in particular $\zeta_i=H(i,o)$.
+\item[(ii)] $F_{ij}=\zeta_i+\zeta_j-\bar\zeta-w\Gamma_{ij}$. In particular $F$ is symmetric,
+$\sum_x\pi_xF_{ix}=0$, and $LF\delta_j=\omega-w\delta_j$.
+\item[(iii)] For $i\in I$ let $\kappa_i=\max_jF_{ij}$ and let $\varphi_i$ be the function
+$\varphi_i(x)=\kappa_i-F_{ix}$. Then $\kappa_i\ge0$, $\varphi_i\ge0$, $\sum_x\pi_x\varphi_i(x)=\kappa_i$,
+$\tmix=\max_i\kappa_i$, and for every function $g$ on $I$
+\begin{equation}\label{eq:energy}
+\mathcal E(\varphi_i,g)=w\Bigl(g_i-\sum_x\pi_xg_x\Bigr),\qquad \mathcal E(\varphi_i,\varphi_j)=-wF_{ij}.
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) For $x\ne j$, conditioning on the first step gives $w_xH(x,j)=w_x+\sum_yw_{xy}H(y,j)$, that is,
+$(LH(\cdot,j))_x=w_x$; as the entries of $LH(\cdot,j)$ sum to zero, $(LH(\cdot,j))_j=w_j-w$. Thus
+$LH(\cdot,j)=\omega-w\delta_j$ and $H(j,j)=0$, and these two conditions determine $H(\cdot,j)$. Now
+$L\zeta=\sum_{j\ne o}w_j(\delta_j-\delta_o)=\omega-w\delta_o$, so the right side of (i), as a function of $i$, has
+Laplacian $\omega-w\delta_o-w(\delta_j-\delta_o)=\omega-w\delta_j$ when $j\ne o$ and $\omega-w\delta_o$ when $j=o$,
+and it vanishes at $i=j$. This proves the formula, and $\zeta_o=0$, $\Gamma_{io}=0$ give $\zeta_i=H(i,o)$.
+
+(ii) By the symmetry of $\Gamma$, $\sum_i\pi_i\Gamma_{ij}=\zeta_j/w$. Averaging (i) over $i$ with weights $\pi_i$
+gives $\E_\pi T_j=\bar\zeta-2\zeta_j+w\Gamma_{jj}$, and subtracting this from (i) gives the formula for $F_{ij}$,
+which is symmetric. Each column of $F$ has $\pi$-mean zero by definition, hence so does each row, and
+$LF\delta_j=LH(\cdot,j)$.
+
+(iii) A row of $F$ has $\pi$-mean zero, so its maximum $\kappa_i$ is nonnegative, and $\varphi_i\ge0$ has
+$\pi$-mean $\kappa_i$. The identity $\tmix=\max_i\kappa_i$ is~\eqref{eq:lw}. By symmetry of $F$ and (ii),
+$L\varphi_i=-LF\delta_i=w\delta_i-\omega$, so $\mathcal E(\varphi_i,g)=g^{\mathsf T}L\varphi_i=wg_i-\sum_xw_xg_x$.
+With $g=\varphi_j$ this is $w(\kappa_j-F_{ji}-\kappa_j)=-wF_{ij}$.
+\end{proof}
+
+We also use two facts about networks whose graph, loops removed, is a tree.
+
+\begin{lemma}\label{lem:bridge}
+Let $x\ne y$ be states with $w_{xy}>0$ such that every path from $x$ to $y$ in the network uses the edge $\{x,y\}$,
+and let $V_{xy}$ be the set of states that can be reached from $x$ without visiting $y$. Then
+$\E_xT_y=w(V_{xy})/w_{xy}$, where $w(V_{xy})=\sum_{z\in V_{xy}}w_z$.
+\end{lemma}
+\begin{proof}
+Up to time $T_y$ the walk started at $x$ stays in $V_{xy}$, so $\E_xT_y$ is the same for the network on
+$V_{xy}\cup\{y\}$ in which $y$ keeps only the edge to $x$. There the stationary probability of $y$ is
+$w_{xy}/(w(V_{xy})+w_{xy})$, so the mean return time to $y$ is $1+w(V_{xy})/w_{xy}$, and it also equals
+$1+\E_xT_y$.
+\end{proof}
+
+\begin{lemma}\label{lem:tree}
+Suppose that the graph of the network, loops removed, is a tree. For a state $x$ let $[x,o]$ be the set of edges of
+the path from $x$ to $o$, for an edge $e$ let $w_e$ be its weight, and let $S_e$ be the total weight $\sum_zw_z$ of
+the states separated from $o$ by $e$. Then
+\[
+\Gamma_{ij}=\sum_{e\in[i,o]\cap[j,o]}\frac1{w_e},\qquad H(x,o)=\sum_{e\in[x,o]}\frac{S_e}{w_e},\qquad
+\E_\pi T_o=\frac1w\sum_e\frac{S_e^2}{w_e},
+\]
+the last sum being over all edges of the tree.
+\end{lemma}
+\begin{proof}
+On a tree the unit current flow from $j$ to $o$ runs along the path from $j$ to $o$, and its voltage at $i$ is the
+sum of the resistances $1/w_e$ of the edges of that path through which the path from $i$ to $o$ also passes. The walk
+from $x$ to $o$ visits every state of the path between them in turn, and by Lemma~\ref{lem:bridge} the edge $e$ of
+that path is crossed towards $o$ in mean time $S_e/w_e$. Averaging over $x$ with weights $\pi_x$, the edge $e$ is
+counted with total weight $S_e/w$.
+\end{proof}
+
+\section{Lumping two states}\label{sec:merge}
+Let $u\ne v$ be states, let $f$ send $u$ and $v$ to one state $\hat v$ and be injective on $J=I\setminus\{u,v\}$, and
+let $\hF$ be the matrix $F$ of $\hX$. Let $h_x=\Prob_x(T_u<T_v)$, $R=R(u\lra v)$ and $\bar h=\sum_x\pi_xh_x$, and for
+$i\in I$ put
+\[
+\beta_i=\varphi_i(u)-\varphi_i(v)=F_{iv}-F_{iu}.
+\]
+
+\begin{proposition}\label{prop:rankone}
+For all $i,j\in I$,
+\[
+\beta_i=wR\,(h_i-\bar h),\qquad \hF_{f(i)f(j)}=F_{ij}+\frac{\beta_i\beta_j}{wR},
+\]
+and
+\begin{equation}\label{eq:twoterms}
+\hF_{f(i)f(j)}\ \le\ \kappa_i+\kappa_j .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Take $o=v$ in Section~\ref{sec:pot}. By~\eqref{eq:harm} the voltage of the unit current flow from $u$ to $v$ is $Rh$,
+so $\Gamma\delta_u=Rh$; in particular $\Gamma_{uu}=R$, $\zeta_u=\sum_x\Gamma_{ux}w_x=wR\bar h$ and $\zeta_v=0$.
+Lemma~\ref{lem:pot}(ii) gives $\beta_i=\zeta_v-\zeta_u+w(\Gamma_{iu}-\Gamma_{iv})=wR(h_i-\bar h)$.
+
+Let $\widetilde\Gamma=\Gamma-Rhh^{\mathsf T}$. Its rows and columns at $u$ and $v$ vanish. The rows of
+$L\Gamma$ indexed by $J$, restricted to the columns indexed by $J$ and by $u$, give
+$L_{JJ}\Gamma_{JJ}+L_{Ju}\Gamma_{uJ}=I_J$ and $L_{JJ}\Gamma_{Ju}+L_{Ju}\Gamma_{uu}=0$, where the subscripts denote
+submatrices; hence $L_{JJ}(\Gamma_{JJ}-\Gamma_{Ju}\Gamma_{uJ}/\Gamma_{uu})=I_J$, that is,
+$\widetilde\Gamma_{JJ}=L_{JJ}^{-1}$. The Laplacian of $\hX$ with the row and the column of $\hat v$ deleted is
+$L_{JJ}$, the total weight of $\hX$ is $w$, and $\hpi_{f(x)}=\pi_x$ for $x\in J$, $\hpi_{\hat v}=\pi_u+\pi_v$. So the
+matrix $\Gamma$ of $\hX$ grounded at $\hat v$ has entries $\widetilde\Gamma_{ij}$ at $(f(i),f(j))$.
+
+For a matrix $A$ indexed by $I$ write $\mathcal C(A)_{ij}=A_{ij}-(A\pi)_i-(\pi^{\mathsf T}A)_j+\pi^{\mathsf T}A\pi$.
+Lemma~\ref{lem:pot}(ii) says that $F=-w\,\mathcal C(\Gamma)$. If $A_{ij}$ depends only on $f(i)$ and $f(j)$, then
+$\mathcal C(A)_{ij}$ equals the same expression formed with the quotient matrix and $\hpi$ at $(f(i),f(j))$. Applied
+to $\widetilde\Gamma$, and since $\mathcal C(hh^{\mathsf T})_{ij}=(h_i-\bar h)(h_j-\bar h)$,
+\[
+\hF_{f(i)f(j)}=-w\,\mathcal C(\widetilde\Gamma)_{ij}=F_{ij}+wR\,(h_i-\bar h)(h_j-\bar h)
+=F_{ij}+\frac{\beta_i\beta_j}{wR}.
+\]
+
+If $\beta_i\beta_j\le0$ this gives $\hF_{f(i)f(j)}\le F_{ij}\le\kappa_i\le\kappa_i+\kappa_j$. Suppose that
+$\beta_i\beta_j>0$. Exchanging the names of $u$ and $v$ changes the signs of $\beta_i$ and $\beta_j$ together and
+leaves the statement unchanged, so we may assume $\beta_i,\beta_j>0$. Put $g_i=\varphi_i/\beta_i$,
+$g_j=\varphi_j/\beta_j$ and let $\eta=\min(g_i,g_j)$ pointwise. These functions are nonnegative, and
+$g_i(u)-g_i(v)=g_j(u)-g_j(v)=1$, hence $\eta(u)-\eta(v)=1$. The function $\eta-\eta(v)\one-h$ vanishes at $u$ and at
+$v$, so by~\eqref{eq:harm} it is $\mathcal E$-orthogonal to $h$, and
+\[
+\mathcal E(\eta,\eta)\ \ge\ \mathcal E(h,h)=\frac1R .
+\]
+Let $\xi_i=g_i-\eta$ and $\xi_j=g_j-\eta$. They are nonnegative and at every state at least one of them vanishes, so
+$\mathcal E(\xi_i,\xi_j)=-\sum_{x\ne y}w_{xy}\xi_i(x)\xi_j(y)\le0$. Expanding $g_i=\eta+\xi_i$ and $g_j=\eta+\xi_j$,
+\[
+\mathcal E(g_i,\eta)+\mathcal E(g_j,\eta)-\mathcal E(g_i,g_j)=\mathcal E(\eta,\eta)-\mathcal E(\xi_i,\xi_j)
+\ \ge\ \frac1R .
+\]
+Let $\bar\eta=\sum_x\pi_x\eta(x)\ge0$. By~\eqref{eq:energy} the left side equals
+\[
+\frac w{\beta_i}\bigl(\eta(i)-\bar\eta\bigr)+\frac w{\beta_j}\bigl(\eta(j)-\bar\eta\bigr)+\frac{wF_{ij}}{\beta_i\beta_j},
+\]
+and $\eta(i)\le g_j(i)=(\kappa_j-F_{ij})/\beta_j$, $\eta(j)\le g_i(j)=(\kappa_i-F_{ij})/\beta_i$. Hence
+\[
+\frac1R\ \le\ \frac w{\beta_i\beta_j}\bigl(\kappa_i+\kappa_j-F_{ij}-(\beta_i+\beta_j)\bar\eta\bigr),
+\]
+and multiplying by $\beta_i\beta_j/w$ and using the formula for $\hF$,
+\begin{equation}\label{eq:strict}
+\hF_{f(i)f(j)}\ \le\ \kappa_i+\kappa_j-(\beta_i+\beta_j)\,\bar\eta . \qedhere
+\end{equation}
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:merge}]
+By~\eqref{eq:lw} and Lemma~\ref{lem:pot}(iii), $\tmix(\hX)$ is the largest entry of $\hF$, and every entry is
+$\hF_{f(i)f(j)}$ for some $i,j\in I$. If $\beta_i\beta_j\le0$ that entry is at most $\kappa_i\le\tmix(X)$. Otherwise,
+in the notation of the proof above, $\eta(u)=\eta(v)+1\ge1$, so $\bar\eta\ge\pi_u>0$, and~\eqref{eq:strict} gives
+$\hF_{f(i)f(j)}<\kappa_i+\kappa_j\le2\tmix(X)$. Finally $\tmix(X)>0$: otherwise every row of $F$, having
+$\pi$-mean zero, would vanish, against $LF\delta_j=\omega-w\delta_j\ne0$. As there are finitely many entries,
+$\tmix(\hX)<2\tmix(X)$. That the constant $2$ is optimal is shown by the comb of Section~\ref{sec:comb} with $N=0$
+(Proposition~\ref{prop:comb}).
+\end{proof}
 
 \section{The upper bound}\label{sec:upper}
 
 \begin{proof}[Proof of Lemma~\ref{lem:relax}]
-Replacing $g$ by a multiple we may assume that $g(i)=1=\max_x|g(x)|$. Since $Pg=\lambda g$, the process
+Replacing $g$ by a multiple we may assume that $g(i)=1=\max_x|g(x)|$. Since $Pg=\lambda g$, where $P=(p_{xy})$, the
+process
 \[
 \mathcal M_t=g(X_t)+(1-\lambda)\sum_{s<t}g(X_s),\qquad t\ge0,
 \]
-is a martingale with $M_0=1$ under $\Prob_i$, with respect to the filtration generated by the chain and by the
-randomization used by $U$. We may assume that $\E_iU<\infty$. The increments of $\mathcal M$ are bounded by $2$, so the optional
-stopping theorem gives $\E_i\mathcal M_U=1$. As $\lambda\ne1$, the function $g$ is orthogonal to the constants in $L^2(\pi)$
-when the chain is reversible, and in general $\sum_x\pi_xg(x)=\sum_x\pi_x(Pg)(x)=\lambda\sum_x\pi_xg(x)$ forces
-$\sum_x\pi_xg(x)=0$. Hence $\E_ig(X_U)=0$ and
+is a martingale with $\mathcal M_0=1$ under $\Prob_i$, with respect to the filtration generated by the chain and by
+the randomization used by $U$. We may assume that $\E_iU<\infty$. The increments of $\mathcal M$ are bounded by $2$,
+so the optional stopping theorem gives $\E_i\mathcal M_U=1$. As $\lambda\ne1$,
+$\sum_x\pi_xg(x)=\sum_x\pi_x(Pg)(x)=\lambda\sum_x\pi_xg(x)$ forces $\sum_x\pi_xg(x)=0$. Hence $\E_ig(X_U)=0$ and
 \[
 1=(1-\lambda)\,\E_i\sum_{s<U}g(X_s)\le(1-\lambda)\,\E_iU .
 \]
@@ -164,10 +366,11 @@ For a reversible chain all eigenvalues are real; taking $\lambda=\lambda_2$ give
 
 \begin{proof}[Proof of the upper bound in Theorem~\ref{thm:main}]
 Let $X$ have $m\le n$ states and let $\hX$ be an induced chain with $q$ states. If $q=m$ the map $f$ is a bijection
-and $\hX$ is $X$ with its states renamed, and if $q=1$ then $\tmix(\hX)=0$. Otherwise $2\le q\le m-1$, and we claim
-that
+and $\hX$ is $X$ with its states renamed, and if $q=1$ then $\tmix(\hX)=0$. Otherwise $m\ge3$ and $2\le q\le m-1$.
+The lumping is a composition of $m-q$ lumpings of two states, so Theorem~\ref{thm:merge} gives
+$\tmix(\hX)\le2^{m-q}\tmix(X)$. We also have
 \begin{equation}\label{eq:chain}
-\tmix(\hX)\ \le\ \tau_0(\hX)\ \le\ (q-1)\,\tau_2(\hX)\ \le\ (q-1)\,\tau_2(X)\ \le\ (m-2)\,\tmix(X).
+\tmix(\hX)\ \le\ \tau_0(\hX)\ \le\ (q-1)\,\tau_2(\hX)\ \le\ (q-1)\,\tau_2(X)\ \le\ (q-1)\,\tmix(X).
 \end{equation}
 For the first inequality, choose a state $J$ of $\hX$ with distribution $\hpi$, independently of the chain, and stop
 at the hitting time of $J$; the chain is then in the stationary distribution, and the mean of this stopping time is
@@ -176,210 +379,171 @@ $\tau_0=\sum_{k\ge2}(1-\lambda_k)^{-1}$~\cite[Proposition~3.13 and Lemma~4.24]{A
 each of whose $q-1$ terms is at most $\tau_2(\hX)$. The third is part of the contraction
 principle~\cite[Proposition~4.44]{AF}: a function $g$ on $\hI$ and the function $g\circ f$ on $I$ have the same mean,
 variance and Dirichlet form under $\hpi$ and $\pi$, so the spectral gap of $\hX$ is at least that of $X$. The fourth
-is Lemma~\ref{lem:relax}. As $\tmix(X)\ge\tau_2(X)\ge\frac12$, the ratio is well defined in all cases; hence
-$K(n)\le\max(1,n-2)$. For $n=2,3$ the identity map gives the matching lower bound.
+is Lemma~\ref{lem:relax}. Hence the ratio is at most $\min(2^{m-q},q-1)\le U(m)$. Finally $U(m)\le U(n)$, because
+$2^{m-q}\le2^{n-q}$, and $U(n)\le\max(1,n-2)$, because each term is at most $q-1\le n-2$.
 \end{proof}
 
 \begin{remark}\label{rem:pimin}
 Write $\pi_*=\min_x\pi_x$. In discrete time $\tmix\le\frac{4e}{e-1}\,\tau_2\,(1+\frac12\log(1/\pi_*))$
-by~\cite[Lemma~4.23]{AF}. Since $\tau_2(\hX)\le\tau_2(X)$ and $\min_a\hpi_a\ge\pi_*$, Lemma~\ref{lem:relax} gives
+by~\cite[Lemma~4.23]{AF}. Since $\tau_2(\hX)\le\tau_2(X)$ and $\min_{\hat x}\hpi_{\hat x}\ge\pi_*$,
+Lemma~\ref{lem:relax} gives
 \[
 \tmix(\hX)\ \le\ \frac{4e}{e-1}\Bigl(1+\frac12\log\frac1{\pi_*}\Bigr)\tmix(X),
 \]
 which is the form taken for $\tmix$ by the bound of Hermon and Peres~\cite[Remark~1.8]{HP}. Together with
-Theorem~\ref{thm:main}, the factor is at most $\min\bigl(\max(1,n-2),\ \frac{4e}{e-1}(1+\frac12\log(1/\pi_*))\bigr)$. For the
+Theorem~\ref{thm:main}, the factor is at most $\min\bigl(U(n),\ \frac{4e}{e-1}(1+\frac12\log(1/\pi_*))\bigr)$. For the
 simple random walk on a graph with bounded degrees $\log(1/\pi_*)$ is of order $\log n$, and the examples
-of~\cite{HP} show that this order is attained. In the comb of Section~\ref{sec:comb} with the parameters of
-Table~\ref{tab:comb}, $\log(1/\pi_*)$ is of order $N\log t$.
+of~\cite{HP} show that this order is attained. In the comb of Section~\ref{sec:comb}, $\log(1/\pi_*)$ is of order
+$(N+1)\log t$.
 \end{remark}
 
 \section{The comb}\label{sec:comb}
-We use the following elementary fact about hitting times across a bridge.
+Fix an integer $N\ge0$ and a real number $t\ge2$, and put $r=t^3$ and $\alpha=t$. The \emph{comb} is the network on
+the $2N+4$ states $a$, $b$, $c$, $z_0,\dots,z_N$, $y_0,\dots,y_{N-1}$ with the edge weights
+\begin{gather*}
+w_{az_0}=1,\qquad w_{bz_N}=\alpha r^{N+1},\qquad w_{cz_N}=r^{N+2},\\
+w_{z_kz_{k+1}}=r^{k+1},\qquad w_{y_kz_{k+1}}=\alpha r^{k+1}\qquad(0\le k<N),
+\end{gather*}
+the loop weights
+\begin{gather*}
+w_{aa}=t-1,\qquad w_{bb}=(t-1)\alpha r^{N+1},\qquad w_{cc}=\ell=(N+2)\,r^{N+4},\\
+w_{y_ky_k}=(t-1)\alpha r^{k+1}\qquad(0\le k<N),
+\end{gather*}
+and all other weights zero. Without its loops the comb is a tree: the spine $a,z_0,\dots,z_N,c$, the teeth $y_k$
+hanging from $z_{k+1}$, and the leaf $b$ hanging from $z_N$. From $a$, from $b$ and from each tooth the walk leaves
+with probability $1/t$ at each step. The map $f$ sends $z_k$ and $y_k$ to one state $\hat z_k$ for $0\le k<N$, sends
+$z_N$ and $c$ to one state $\hat c$, and keeps $a$ and $b$. So $\hX$ has $N+3$ states and is obtained by $N+1$
+lumpings of two states. For $N=0$ the comb is a star with centre $z_0$, and only $z_0$ and $c$ are lumped.
 
-\begin{lemma}\label{lem:bridge}
-Let $x\ne y$ be states with $w_{xy}>0$ such that every path from $x$ to $y$ in the network uses the edge $\{x,y\}$,
-and let $S$ be the set of states that can be reached from $x$ without visiting $y$. Then
-$\E_xT_y=w(S)/w_{xy}$, where $w(S)=\sum_{u\in S}w_u$.
-\end{lemma}
-\begin{proof}
-Up to time $T_y$ the walk started at $x$ stays in $S$, so $\E_xT_y$ is the same for the network on $S\cup\{y\}$ in
-which $y$ keeps only the edge to $x$. There the stationary probability of $y$ is $w_{xy}/(w(S)+w_{xy})$, so the mean
-return time to $y$ is $1+w(S)/w_{xy}$, and it also equals $1+\E_xT_y$.
-\end{proof}
-
-Fix an integer $N\ge1$ and real numbers $r\ge2$, $\alpha>0$, $h\ge1$ and $\ell\ge0$. The \emph{comb} is the network
-on the $2N+2$ states $z_0,\dots,z_N$, $y_0,\dots,y_{N-1}$, $c$ with the weights
-\[
-w_{z_kz_{k+1}}=r^k,\quad w_{y_kz_{k+1}}=\alpha r^k,\quad w_{y_ky_k}=(h-1)\alpha r^k\quad(0\le k<N),\qquad
-w_{z_Nc}=r^N,\quad w_{cc}=\ell,
-\]
-and all other weights zero. The spine $z_0,\dots,z_N,c$ carries conductances that grow geometrically towards $c$; the
-tooth $y_k$ hangs from $z_{k+1}$, and the walk leaves it with probability $1/h$ at each step. The map $f$ sends $z_k$
-and $y_k$ to the same point $b_k$ for $0\le k<N$, sends $z_N$ to $b_N$ and $c$ to $c$. Put
-\[
-\delta=\frac{2+\alpha+\alpha h}{r-1},\qquad \rho=\frac{w_c}{r^N}=1+\frac{\ell}{r^N},\qquad
-M=h+(N+1)(1+\delta),\qquad B=h+(N+2)(1+\delta).
-\]
+Put $\sigma_k=\sum_{l=1}^kr^l$ and $B=2+\alpha(t+1)$, and
+\begin{gather*}
+S_k=t+1+r^{k+1}+B\sigma_k,\qquad \hS_k=S_k+t\alpha r^{k+1}\qquad(0\le k<N),\\
+S_N=t+1+r^{N+2}+B\sigma_N+(t+1)\alpha r^{N+1},\\
+M=t+\sum_{k=0}^{N-1}\frac{S_k}{r^{k+1}}+\frac{S_N}{r^{N+2}},\qquad
+\hM=t+\sum_{k=0}^{N-1}\frac{\hS_k}{(1+\alpha)r^{k+1}} .
+\end{gather*}
 
 \begin{proposition}\label{prop:comb}
-For the comb $X$ and its induced chain $\hX$,
+For the comb $X$ and its induced chain $\hX$:
 \begin{enumerate}
-\item[(i)] $\max_x\E_xT_c\le M$;
-\item[(ii)] $\tmix(X)\le\max(B,\ M+B-\rho)$, so that $\tmix(X)\le B$ when $\rho\ge M$;
-\item[(iii)] $\hE_{b_0}\widehat{T}_c\ge Nh\alpha/(1+\alpha)$ and $\tmix(\hX)\ge\pi_c\,Nh\alpha/(1+\alpha)$.
+\item[(i)] $S_k$ is the total weight of the states separated from $c$ by the edge $\{z_k,z_{k+1}\}$ ($k<N$), $S_N$ is
+that of the states other than $c$, and $w=\ell+r^{N+2}+S_N$. Moreover $M=\E_aT_c=\max_x\E_xT_c$,
+$\hM=\hE_a\widehat T_{\hat c}$, $\hE_b\widehat T_{\hat c}=t$, and $\hE_{\hat x}\widehat T_{\hat c}\le\hM$ for
+$\hat x\ne b$.
+\item[(ii)] If $w\ge Mr^{N+2}$, then $\tmix(X)=M-\E_\pi T_c$. If moreover $N=0$ or $w\ge(\hM-t)(1+\alpha)r^N$, then
+$\tmix(\hX)=\hM+t-\hE_{\hpi}\widehat T_{\hat c}$.
+\item[(iii)] As $t\to\infty$ with $N$ fixed, the conditions of (ii) hold, $M=t+N+1+O(1/t)$,
+$\hM=(N+1)t+O(1)$, and $\E_\pi T_c$ and $\hE_{\hpi}\widehat T_{\hat c}$ tend to zero. Hence
+\[
+\frac{\tmix(\hX)}{\tmix(X)}\to N+2,\qquad \frac{\hM}{M}\to N+1 .
+\]
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-The comb is a tree with loops. The vertex weights are $w_{z_0}=1$, $w_{z_k}=r^{k-1}(1+r+\alpha)$ for
-$1\le k\le N$ and $w_{y_k}=h\alpha r^k$. Write $z_{N+1}=c$. For $0\le k\le N$ let $S_k$ be the total weight of the
-states $z_0,\dots,z_k,y_0,\dots,y_{k-1}$, which are those separated from $c$ by the edge $\{z_k,z_{k+1}\}$. Since
-$(1+r+\alpha+h\alpha)/(r-1)=1+\delta$,
-\begin{equation}\label{eq:Sk}
-S_k=1+(1+\delta)(r^k-1)\le(1+\delta)\,r^k .
-\end{equation}
+(i) The state weights are $w_a=t$, $w_{y_k}=t\alpha r^{k+1}$, $w_b=t\alpha r^{N+1}$, $w_c=r^{N+2}+\ell$, and for the
+spine $w_{z_0}=1+r$ and $w_{z_k}=r^k+r^{k+1}+\alpha r^k$ ($1\le k<N$), $w_{z_N}=r^N+\alpha r^N+\alpha r^{N+1}+r^{N+2}$
+when $N\ge1$, while $w_{z_0}=1+\alpha r+r^2$ when $N=0$. The states separated from $c$ by $\{z_k,z_{k+1}\}$ are $a$,
+$z_0,\dots,z_k$ and $y_0,\dots,y_{k-1}$. Their total weight is $t+1+r$ for $k=0$, and passing from $k-1$ to $k$ adds
+$w_{z_k}+w_{y_{k-1}}=r^{k+1}+(B-1)r^k$, which is also the increase of $t+1+r^{k+1}+B\sigma_k$. The same count with
+$w_b$ added gives $S_N$, and $w=w_c+S_N$.
 
-(i) By Lemma~\ref{lem:bridge}, $\E_{z_k}T_{z_{k+1}}=S_k/r^k\le1+\delta$ and $\E_{y_k}T_{z_{k+1}}=h$. Adding along the
-path to $c$ gives $\E_{z_k}T_c\le(N+1)(1+\delta)$ and $\E_{y_k}T_c\le h+N(1+\delta)$.
+By Lemma~\ref{lem:bridge}, $\E_aT_{z_0}=t$, $\E_{z_k}T_{z_{k+1}}=S_k/r^{k+1}$, $\E_{z_N}T_c=S_N/r^{N+2}$,
+$\E_{y_k}T_{z_{k+1}}=t$ and $\E_bT_{z_N}=t$. The walk from $x$ to $c$ visits every state of the path between them, so
+$\E_xT_c$ is the sum of these terms along the path. From $a$ this sum is $M$. From any other state it is either a sum
+of some of the spine terms, or $t$ followed by some of the spine terms, and in both cases at most $M$.
 
-(ii) Write $H(x,j)=\E_xT_j$ and $d(x,j)=H(x,j)-\E_\pi T_j=\sum_k\pi_k\bigl(H(x,j)-H(k,j)\bigr)$; by~\eqref{eq:lw},
-$\tmix(X)=\max_{x,j}d(x,j)$. For three vertices $x,k,j$ of a tree let $\med(x,k,j)$ be the vertex common to the three
-paths joining them. A walk from $x$ to $j$ passes through $u=\med(x,k,j)$, so $H(x,j)=H(x,u)+H(u,j)$, and likewise
-from $k$; hence
-\begin{equation}\label{eq:median}
-H(x,j)-H(k,j)=H(x,u)-H(k,u)\le H(x,u).
-\end{equation}
-If $j=c$ then $d(x,c)\le H(x,c)\le M$ by (i).
+The induced chain is again a tree: the path $a,\hat z_0,\dots,\hat z_{N-1},\hat c$ with the leaf $b$ attached to
+$\hat c$. Writing $\hat z_N=\hat c$, the edge $\{\hat z_k,\hat z_{k+1}\}$ has weight
+$w_{z_kz_{k+1}}+w_{y_kz_{k+1}}=(1+\alpha)r^{k+1}$, and the states separated from $\hat c$ by it are $a,\hat z_0,\dots,
+\hat z_k$, of total weight $S_k+w_{y_k}=\hS_k$. The edge $\{a,\hat z_0\}$ (or $\{a,\hat c\}$ if $N=0$) has weight $1$
+and $\{b,\hat c\}$ has weight $\alpha r^{N+1}$. Lemma~\ref{lem:bridge} and the argument above give the assertions
+about $\hX$.
 
-Let $x=c$ and $j\ne c$. Define the level of $z_p$ to be $p$ and the level of $y_p$ to be $p+1$, and let $q$ be the
-level of $j$. By Lemma~\ref{lem:bridge}, $\E_{z_{t+1}}T_{z_t}=(w-S_t)/r^t\le w\,r^{-t}$, so for $0\le p\le N$
-\begin{equation}\label{eq:down}
-H(c,z_p)\le w\sum_{t\ge p}r^{-t}=\frac{r}{r-1}\,w\,r^{-p}\le 2w\,r^{-p},
-\end{equation}
-and $\E_{z_{p+1}}T_{y_p}=(w-w_{y_p})/(\alpha r^p)\le w/(\alpha r^p)$. By~\eqref{eq:median},
-$d(c,j)\le\sum_{k\ne c}\pi_kH(c,\med(c,k,j))$. If the level $p$ of $k$ exceeds $q$ then $\med(c,k,j)=z_p$; the two states
-of level $p$ have total weight $r^{p-1}(1+r+\alpha+h\alpha)$, so by the geometric series in~\eqref{eq:down} they
-contribute at most $(1+r+\alpha+h\alpha)/(r-1)=1+\delta$, and there are $N-q$ such levels. If the level of $k$ is at
-most $q$ and $k\ne j$ then $\med(c,k,j)=z_q$; the same holds for $k=j$ when $j=z_q$, while for $k=j=y_{q-1}$ the median
-is $j$ and $H(c,j)=H(c,z_q)+H(z_q,y_{q-1})$. The states of level at most $q$, with $j$ among them, have total weight
-$S_q$, so by~\eqref{eq:Sk} and~\eqref{eq:down} the terms $\pi_kH(c,z_q)$ contribute at most $2(1+\delta)$. If
-$j=y_{q-1}$ there is in addition the term $\pi_jH(z_q,y_{q-1})$, which is at most $w_{y_{q-1}}/(\alpha r^{q-1})=h$.
-Altogether
-\[
-d(c,j)\le h+(N-q+2)(1+\delta)\le B .
-\]
+(ii) Take $o=c$ in Section~\ref{sec:pot}. By Lemma~\ref{lem:pot}, $F_{ij}=H(i,c)+H(j,c)-\E_\pi T_c-w\Gamma_{ij}$. For
+$j=c$ this is $H(i,c)-\E_\pi T_c\le M-\E_\pi T_c$, with equality at $i=a$. For $i,j\ne c$ the edge $\{z_N,c\}$ lies in
+$[i,c]\cap[j,c]$, so $\Gamma_{ij}\ge r^{-(N+2)}$ by Lemma~\ref{lem:tree}, and
+$F_{ij}\le2M-\E_\pi T_c-wr^{-(N+2)}\le M-\E_\pi T_c$. By~\eqref{eq:lw}, $\tmix(X)=M-\E_\pi T_c$.
 
-Let $x\ne c$ and $j\ne c$. Since $c$ is a leaf, $u=\med(x,c,j)\ne c$, and $u$ lies on the path from $x$ to $c$ and on the
-path from $c$ to $j$. By~\eqref{eq:median}, (i) and Lemma~\ref{lem:bridge},
-\[
-H(x,j)-H(c,j)=H(x,u)-H(c,u)\le H(x,c)-H(c,z_N)\le M-\rho ,
-\]
-so $d(x,j)=H(x,j)-H(c,j)+d(c,j)\le M-\rho+B$. As $d(c,c)\le0$ and $M\le B$, this proves (ii).
+In $\hX$ take $o=\hat c$ and write $\widehat H$, $\widehat\Gamma$ for the corresponding quantities. The paths from $a$
+and from $b$ to $\hat c$ share no edge, so $\hF_{ab}=\hM+t-\hE_{\hpi}\widehat T_{\hat c}$. Every other entry is at most
+this: entries with $\hat c$ are at most $\hM-\hE_{\hpi}\widehat T_{\hat c}$; entries $\hF_{b\hat x}$ with $\hat x\ne
+b$ are at most $\widehat H(\hat x,\hat c)+t-\hE_{\hpi}\widehat T_{\hat c}$; $\hF_{bb}\le2t-\hE_{\hpi}\widehat
+T_{\hat c}$ and $t\le\hM$; if $N=0$ the only remaining entry is $\hF_{aa}\le2t-\hE_{\hpi}\widehat T_{\hat c}$ and
+$\hM=t$; and if $N\ge1$, two states of the path other than $\hat c$ share the edge $\{\hat z_{N-1},\hat c\}$, so
+$\widehat\Gamma\ge1/((1+\alpha)r^N)$ for them and their entry is at most
+$2\hM-\hE_{\hpi}\widehat T_{\hat c}-w/((1+\alpha)r^N)\le\hM+t-\hE_{\hpi}\widehat T_{\hat c}$.
 
-(iii) The induced chain is a random walk on the path $b_0,\dots,b_N,c$ with $\hw_{b_kb_{k+1}}=(1+\alpha)r^k$ for
-$k<N$, $\hw_{b_Nc}=r^N$ and loops. By Lemma~\ref{lem:bridge}, for $k<N$
-\[
-\hE_{b_k}\widehat{T}_{b_{k+1}}\ \ge\ \frac{\hw_{b_k}}{(1+\alpha)r^k}\ \ge\ \frac{w_{y_k}}{(1+\alpha)r^k}
-=\frac{h\alpha}{1+\alpha},
-\]
-and the sum over $k$ gives the first assertion. On a path $\hE_{b_0}\widehat{T}_c\ge\hE_a\widehat{T}_c$ for every
-$a$, so by~\eqref{eq:lw}
-\[
-\tmix(\hX)\ \ge\ \sum_a\hpi_a\bigl(\hE_{b_0}\widehat{T}_c-\hE_a\widehat{T}_c\bigr)\ \ge\ \hpi_c\,\hE_{b_0}\widehat{T}_c ,
-\]
-and $\hpi_c=\pi_c$.
+(iii) Since $\sigma_k\le2r^k$, $B=t^2+t+2$ and $r=t^3$, each of $S_k/r^{k+1}$ ($k<N$) and $S_N/r^{N+2}$ is
+$1+O(1/t)$, so $M=t+N+1+O(1/t)$, and $\hS_k/((1+\alpha)r^{k+1})=(t^2+1+O(1/t))/(t+1)=t-1+O(1/t)$, so
+$\hM=(N+1)t-N+O(1/t)$. As $S_N=O(r^{N+2})$ and $w\ge\ell=(N+2)r^{N+4}$, the conditions of (ii) hold for large $t$.
+Next, $\E_\pi T_c\le(1-\pi_c)M=(S_N/w)M=O(t^{-5})$, and since the states of $\hX$ other than $\hat c$ carry
+stationary mass at most $S_N/w$, also $\hE_{\hpi}\widehat T_{\hat c}\le(S_N/w)\hM=O(t^{-5})$. By (ii) the ratio is
+$((N+2)t-N+o(1))/(t+N+1+o(1))\to N+2$.
 \end{proof}
 
-For the parameters used below, where $r$ is much larger than $\alpha h$, a walk on the spine of the comb rarely
-enters a tooth, and the teeth cost a walk about one sojourn, of mean $h$, on its way to $c$. After lumping, every
-point of the spine below $z_N$ inherits the loop of a tooth, and when $\alpha$ is large the delay is about $h$ at
-each of the $N$ levels.
+For $r\gg\alpha t$ a walk on the spine of the comb rarely enters a tooth, and each tooth or leaf delays a walk that
+starts there by its holding time, of mean $t$. After lumping, each state $\hat z_k$ inherits the holding loop of the
+tooth $y_k$, and since $\alpha$ is large the walk from $a$ to $\hat c$ is delayed by about $t$ at each of the $N$
+levels. In $X$ the far ends $a$ and $b$ are each about $t$ away from $c$ and the heavy state $c$ separates them; in
+$\hX$ the delays add up along the spine, and the leaf $b$ adds one more $t$.
 
 \begin{proof}[Proof of the lower bound in Theorem~\ref{thm:main}]
-The identity map gives $K(n)\ge1$. Let $N\ge1$ and $t\ge2$, and take $\alpha=h=t$, $r=1+t^3$ and $\ell$ so large
-that $\rho\ge M$ and $\pi_c\ge1-1/t$. Then $\delta=(2+t+t^2)/t^3\le1$ and, by Proposition~\ref{prop:comb},
-\[
-\frac{\tmix(\hX)}{\tmix(X)}\ \ge\ \Bigl(1-\frac1t\Bigr)\frac{N\,t^2}{(1+t)\bigl(t+(N+2)(1+\delta)\bigr)},
-\]
-which tends to $N$ as $t\to\infty$. The comb has $2N+2$ states, so $K(n)\ge N$ whenever $n\ge2N+2$.
+The identity map gives $K(n)\ge1$. For $n\ge4$ let $N=\lfloor n/2\rfloor-2$. The comb has $2N+4\le n$ states, and by
+Proposition~\ref{prop:comb} the ratio $\tmix(\hX)/\tmix(X)$ tends to $N+2=\lfloor n/2\rfloor$ as $t\to\infty$. The
+values of $K(n)$ follow from Table~\ref{tab:bounds}.
 \end{proof}
 
-Table~\ref{tab:comb} gives the values for $\alpha=h=t=256$, $r=1+t^3$ and $w_c=(N+2)t^2(w-w_c)$, computed in
-rational arithmetic from~\eqref{eq:lw} and rounded.
+Table~\ref{tab:comb} gives the values for $t=1000$, computed in rational arithmetic from~\eqref{eq:lw} and rounded;
+the closed forms of Proposition~\ref{prop:comb} agree with them exactly, and the conditions of
+Proposition~\ref{prop:comb}(ii) hold already for $t=2$ when $N\le3$.
 
-\begin{table}[h]
+\begin{table}[tbp]
 \centering
-\begin{tabular}{rrrrr}
+\begin{tabular}{rrrrrr}
 \toprule
-$N$ & states & $\tmix(X)$ & $\tmix(\hX)$ & ratio\\
+$N$ & states & $\tmix(X)$ & $\tmix(\hX)$ & $\tmix(\hX)/\tmix(X)$ & $\hM/M$\\
 \midrule
-1 & 4 & 257.004 & 256.012 & 0.9961\\
-2 & 6 & 258.008 & 511.019 & 1.9806\\
-4 & 10 & 260.016 & 1021.035 & 3.9268\\
-8 & 18 & 264.031 & 2041.066 & 7.7304\\
+0 & 4 & 1001.001 & 2000.000 & 1.9980 & 0.9990\\
+1 & 6 & 1002.001 & 2999.002 & 2.9930 & 1.9950\\
+2 & 8 & 1003.002 & 3998.004 & 3.9860 & 2.9890\\
+3 & 10 & 1004.003 & 4997.006 & 4.9771 & 3.9811\\
 \bottomrule
 \end{tabular}
-\caption{The comb with $\alpha=h=256$ and its induced chain.}\label{tab:comb}
+\caption{The comb with $t=1000$ and its induced chain.}\label{tab:comb}
 \end{table}
 
-\begin{remark}\label{rem:four}
-The comb with $N=1$ has four states, and with the parameters of Table~\ref{tab:comb} its ratio is below one. A
-different chain on four states has ratio above
-one: take $I=\{0,1,2,3\}$ with $w_{02}=w_{12}=1$, $w_{13}=109$, $w_{23}=54$, $w_{11}=117$, $w_{33}=10000$, and lump
-the states $2$ and $3$. Then
-\[
-\tmix(X)=\frac{149731115}{63193903}=2.3693\ldots,\qquad \tmix(\hX)=\frac{346900}{114917}=3.0187\ldots,
-\]
-both attained in~\eqref{eq:lw} at $(i,j)=(1,0)$, and the ratio is $419679620/329408453=1.2740\ldots$.
-\end{remark}
-
-For $t\ge2$ let $X_t$ be the chain on $\{0,1,2,3\}$ with $w_{02}=w_{12}=1$, $w_{03}=w_{13}=t$, $w_{00}=w_{11}=t^2-1$,
-$w_{33}=t^6$ and all other weights zero, and let $\hX_t$ be obtained by lumping the states $2$ and $3$. With
-$W=t^6+2t^2+4t+2$,
-\begin{equation}\label{eq:four}
-\tmix(X_t)=\frac{(t+1)(t^6+t^5+4t+2)}{W},\qquad \tmix(\hX_t)=\frac{2t(t^6+t^2+3t+2)}{W}.
-\end{equation}
-To prove~\eqref{eq:four}, solve the linear equations for $\E_iT_j$ in both chains; the solutions are rational
-functions of $t$. With $d(i,j)=\E_iT_j-\E_\pi T_j$ as in the proof of Proposition~\ref{prop:comb}, the right side
-of~\eqref{eq:four} is $d(3,2)$ for $X_t$ and $d(1,0)$ for $\hX_t$, and with $t=2+s$ each difference $d(3,2)-d(i,j)$,
-respectively $d(1,0)-d(i,j)$, is a quotient
-of two polynomials in $s$ with nonnegative coefficients, so that by~\eqref{eq:lw} these entries are the maxima for
-every $t\ge2$. The program \texttt{four\_state\_family.py} in the repository named below carries out this computation
-in exact arithmetic. The ratio of the two times in~\eqref{eq:four} tends to $2$ as $t\to\infty$; at $t=10^6$ it is
-$1.999996\ldots$. Hence $K(4)\ge2$, and with the upper bound of Theorem~\ref{thm:main}, $K(4)=2$.
-
 \section{Hitting times of sets}\label{sec:hit}
-For a non-empty proper subset $Z$ of $I$ and $x,y\notin Z$ let $G_Z(x,y)$ be the expected number of visits to $y$ before $T_Z$
-for the walk started at $x$, and let $R(y\lra Z)$ be the effective resistance between $y$ and $Z$ in the network with
-conductances $w_{uv}$, $u\ne v$. Then~\cite[Section~2.2]{LP}
+For a non-empty proper subset $Z$ of $I$ and $x,y\notin Z$ let $G_Z(x,y)$ be the expected number of visits to $y$
+before $T_Z$ for the walk started at $x$. Then~\cite[Section~2.2]{LP}
 \begin{equation}\label{eq:green}
 \E_xT_Z=\sum_{y\notin Z}G_Z(x,y),\qquad G_Z(x,y)=\Prob_x(T_y<T_Z)\,G_Z(y,y),\qquad G_Z(y,y)=w_y\,R(y\lra Z).
 \end{equation}
-The last identity holds in the presence of loops: the walk at $y$ reaches $Z$ before returning to $y$ with
+The formula for $G_Z(y,y)$ holds in the presence of loops: the walk at $y$ reaches $Z$ before returning to $y$ with
 probability $1/(w_yR(y\lra Z))$, and a loop at $y$ changes $w_y$ only.
 
 \begin{proof}[Proof of Proposition~\ref{prop:hit}]
-The network of $\hX$ is obtained from that of $X$ by gluing together the vertices in each set $f^{-1}(b)$; edges
+The network of $\hX$ is obtained from that of $X$ by gluing together the states in each set $f^{-1}(\hat y)$; edges
 inside such a set become loops. By Rayleigh's monotonicity principle~\cite[Section~2.4]{LP} gluing does not increase
-effective resistances, so $\widehat{R}(b\lra\hA)\le R(y\lra A)$ for every $b\in\hI\setminus\hA$ and every
-$y\in f^{-1}(b)$. With~\eqref{eq:green} applied to both chains,
+effective resistances, so $\widehat{R}(\hat y\lra\hA)\le R(y\lra A)$ for every $\hat y\in\hI\setminus\hA$ and every
+$y\in f^{-1}(\hat y)$, where $\widehat R$ is the effective resistance in the network of $\hX$. With~\eqref{eq:green}
+applied to both chains,
 \begin{align*}
-\hE_a\widehat{T}_{\hA}\ &\le\ \sum_{b\notin\hA}\hw_b\,\widehat{R}(b\lra\hA)
-=\sum_{b\notin\hA}\ \sum_{y\in f^{-1}(b)}w_y\,\widehat{R}(b\lra\hA)\\
+\hE_{\hat x}\widehat{T}_{\hA}\ &\le\ \sum_{\hat y\notin\hA}\hw_{\hat y}\,\widehat{R}(\hat y\lra\hA)
+=\sum_{\hat y\notin\hA}\ \sum_{y\in f^{-1}(\hat y)}w_y\,\widehat{R}(\hat y\lra\hA)\\
 &\le\ \sum_{y\notin A}w_y\,R(y\lra A)=\sum_{y\notin A}G_A(y,y)\ \le\ \sum_{y\notin A}\E_yT_A .
 \end{align*}
-For the second statement take the comb with $A=\{c\}$, $\hA=\{c\}$ and $a=b_0$. By
-Proposition~\ref{prop:comb}(i) and~(iii),
-\[
-\frac{\hE_{b_0}\widehat{T}_c}{\max_y\E_yT_c}\ \ge\ \frac{Nh\alpha}{(1+\alpha)\bigl(h+(N+1)(1+\delta)\bigr)},
-\]
-and with $\alpha=h=t$, $r=1+t^3$ the right-hand side tends to $N$ as $t\to\infty$.
+For the second statement take the comb of Section~\ref{sec:comb}, $\hA=\{\hat c\}$, $A=\{z_N,c\}$ and $\hat x=a$.
+Then $\max_y\E_yT_A\le\max_y\E_yT_c=M$ and $\hE_a\widehat T_{\hat c}=\hM$, and $\hM/M\to N+1$ by
+Proposition~\ref{prop:comb}(iii).
 \end{proof}
 
-The program in the repository named below evaluates both sides of every inequality of Proposition~\ref{prop:comb} in
-rational arithmetic for the $48$ combs with $N\in\{1,2,3,4,6,8\}$ and $\alpha=h=t\in\{4,16,64,256\}$, and does the
-same for the inequalities $\tmix(\hX)\le\tau_0(\hX)\le\tau_0(X)\le(m-1)\,\tmix(X)$
-and for Proposition~\ref{prop:hit} on $400$ random networks with three to six states and random partitions.
+The program \texttt{merge\_and\_comb\_checks.py} in the repository named below checks, in rational arithmetic, the
+formula for $\hF$ and inequality~\eqref{eq:twoterms} for every pair of states and every lumping of two states in $100$
+random networks with three to six states ($850$ lumpings), and the closed forms of Proposition~\ref{prop:comb} for
+$N\le3$ and $t\in\{2,3,10,100,1000\}$. The program \texttt{lumping\_checks.py} checks Proposition~\ref{prop:hit},
+the inequalities $\tmix(\hX)\le\tau_0(\hX)\le\tau_0(X)\le(m-1)\,\tmix(X)$ and the upper bound of
+Theorem~\ref{thm:main} on $400$ random networks with three to six states and random partitions.
 
 \input{tail}
 

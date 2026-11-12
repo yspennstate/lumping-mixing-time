@@ -4,35 +4,45 @@ Symbols are listed in the order in which they first appear. Letters used only in
 \medskip
 \begin{center}
 \small
-\begin{tabular}{@{}lp{0.62\textwidth}l@{}}
+\begin{tabular}{@{}lp{0.6\textwidth}l@{}}
 \toprule
 Symbol & Meaning & First appears\\
 \midrule
 $I$, $n$ & the state space of $X$ and its number of elements & Section~\ref{sec:intro}\\
-$w_{xy}$, $w_x$, $w$ & the weight of the edge $\{x,y\}$, the weight $\sum_yw_{xy}$ of a state, the total weight & Section~\ref{sec:intro}\\
-$X$, $p_{xy}$, $\pi$ & the random walk on the network, its transition probabilities, its stationary distribution & Section~\ref{sec:intro}\\
+$w_{xy}$, $w_x$, $w$ & the weight of $\{x,y\}$, the weight of a state, the total weight & Section~\ref{sec:intro}\\
+$X$, $p_{xy}$, $\pi$ & the random walk, its transition probabilities, its stationary law & Section~\ref{sec:intro}\\
 $T_y$, $T_A$ & the hitting time of a state $y$ and of a set $A$ & Section~\ref{sec:intro}\\
-$\E_\mu$, $\Prob_\mu$ & expectation and probability for the chain started from the distribution $\mu$ & Section~\ref{sec:intro}\\
-$f$, $\hI$ & the lumping map and the set onto which it maps $I$ & Section~\ref{sec:intro}\\
-$\hX$, $\hw_{ab}$, $\hpi$ & the induced chain, its weights, its stationary distribution & Section~\ref{sec:intro}\\
+$\E_\mu$, $\Prob_\mu$ & expectation and probability for the chain started from $\mu$ & Section~\ref{sec:intro}\\
+$f$, $\hI$ & the lumping map and its image set & Section~\ref{sec:intro}\\
+$\hX$, $\hw$, $\hpi$ & the induced chain, its weights, its stationary law & Section~\ref{sec:intro}\\
 $\hE$, $\widehat T$ & expectation and hitting times for $\hX$ & Section~\ref{sec:intro}\\
 $\tmix$ & the stopping-rule mixing time, given by~\eqref{eq:lw} & Section~\ref{sec:intro}\\
 $\tau^*$, $\tau_0$ & the maximal mean commute time and the average hitting time & Section~\ref{sec:intro}\\
-$\lambda_k$, $\tau_2$ & the $k$-th largest eigenvalue of $(p_{xy})$ and the relaxation time $1/(1-\lambda_2)$ & Section~\ref{sec:intro}\\
+$\lambda_k$, $\tau_2$ & the $k$-th largest eigenvalue of $(p_{xy})$ and $1/(1-\lambda_2)$ & Section~\ref{sec:intro}\\
 $\tau_c$ & the Cheeger time constant & Section~\ref{sec:intro}\\
-$K(n)$ & the largest factor by which lumping can increase $\tmix$ for chains with at most $n$ states & Section~\ref{sec:intro}\\
-$m$, $q$ & the numbers of states of $X$ and of $\hX$ & Section~\ref{sec:upper}\\
-$\pi_*$ & the smallest stationary probability $\min_x\pi_x$ & Remark~\ref{rem:pimin}\\
-$N$, $r$, $\alpha$, $h$, $\ell$ & the parameters of the comb & Section~\ref{sec:comb}\\
-$z_k$, $y_k$, $c$ & the spine, the teeth and the end state of the comb & Section~\ref{sec:comb}\\
-$b_k$ & the state of $\hX$ obtained by lumping $z_k$ with $y_k$ ($b_N$ is the image of $z_N$) & Section~\ref{sec:comb}\\
-$\delta$, $\rho$, $M$, $B$ & the constants defined before Proposition~\ref{prop:comb} & Section~\ref{sec:comb}\\
-$S_k$ & the total weight of the states separated from $c$ by the edge $\{z_k,z_{k+1}\}$ & \eqref{eq:Sk}\\
-$H(x,j)$, $d(x,j)$ & $\E_xT_j$ and $\E_xT_j-\E_\pi T_j$ & Section~\ref{sec:comb}\\
-$\med(x,k,j)$ & the vertex common to the three paths joining $x$, $k$, $j$ in a tree & \eqref{eq:median}\\
-$X_t$, $\hX_t$, $W$ & the four-state family, its induced chain, and the common denominator in~\eqref{eq:four} & \eqref{eq:four}\\
-$G_Z(x,y)$ & the expected number of visits to $y$ before $T_Z$ for the walk started at $x$ & Section~\ref{sec:hit}\\
-$R(y\lra Z)$ & the effective resistance between $y$ and $Z$ & Section~\ref{sec:hit}\\
+$K(n)$ & the largest factor by which lumping can increase $\tmix$ on at most $n$ states & Section~\ref{sec:intro}\\
+$U(n)$ & the upper bound $\max_q\min(2^{n-q},q-1)$ & Section~\ref{sec:intro}\\
+$m$, $q$ & the numbers of states of $X$ and of $\hX$ & Section~\ref{sec:intro}\\
+$H(x,j)$, $F_{ij}$ & $\E_xT_j$ and $\E_iT_j-\E_\pi T_j$ & Section~\ref{sec:pot}\\
+$\omega$, $\one$, $\delta_x$ & the vector $(w_x)$, the constant $1$, the indicator of $x$ & Section~\ref{sec:pot}\\
+$L$, $\mathcal E$ & the Laplacian (loops removed) and the Dirichlet form & Section~\ref{sec:pot}\\
+$R(y\lra Z)$ & the effective resistance between $y$ and $Z$ & Section~\ref{sec:pot}\\
+$o$, $\Gamma$ & the grounded state and the grounded inverse of $L$ & Section~\ref{sec:pot}\\
+$\zeta$, $\bar\zeta$ & $\Gamma\omega$, so $\zeta_i=H(i,o)$, and its $\pi$-mean & Section~\ref{sec:pot}\\
+$\kappa_i$, $\varphi_i$ & $\max_jF_{ij}$ and the potential $\kappa_i-F_{i\cdot}$ & Lemma~\ref{lem:pot}\\
+$V_{xy}$ & the states reached from $x$ without visiting $y$ & Lemma~\ref{lem:bridge}\\
+$S_e$, $w_e$ & the weight beyond an edge $e$ of a tree, and the weight of $e$ & Lemma~\ref{lem:tree}\\
+$u$, $v$, $J$, $\hF$ & the lumped pair, the other states, the matrix $F$ of $\hX$ & Section~\ref{sec:merge}\\
+$h$, $R$, $\bar h$ & $\Prob_x(T_u<T_v)$, $R(u\lra v)$, the $\pi$-mean of $h$ & Section~\ref{sec:merge}\\
+$\beta_i$ & $\varphi_i(u)-\varphi_i(v)=wR(h_i-\bar h)$ & Section~\ref{sec:merge}\\
+$\eta$, $\bar\eta$ & the pointwise minimum of $\varphi_i/\beta_i$ and $\varphi_j/\beta_j$, and its $\pi$-mean & Section~\ref{sec:merge}\\
+$\pi_*$ & $\min_x\pi_x$ & Remark~\ref{rem:pimin}\\
+$N$, $t$, $r$, $\alpha$, $\ell$ & the parameters of the comb & Section~\ref{sec:comb}\\
+$a$, $b$, $c$, $z_k$, $y_k$ & the states of the comb: two ends, the heavy leaf, spine, teeth & Section~\ref{sec:comb}\\
+$\hat z_k$, $\hat c$ & the lumped states $f(z_k)=f(y_k)$ and $f(z_N)=f(c)$ & Section~\ref{sec:comb}\\
+$\sigma_k$, $B$, $S_k$, $\hS_k$ & the constants defined before Proposition~\ref{prop:comb} & Section~\ref{sec:comb}\\
+$M$, $\hM$ & $\E_aT_c$ in $X$ and $\hE_a\widehat T_{\hat c}$ in $\hX$ & Section~\ref{sec:comb}\\
+$G_Z(x,y)$ & the expected number of visits to $y$ before $T_Z$ from $x$ & Section~\ref{sec:hit}\\
 \bottomrule
 \end{tabular}
 \end{center}

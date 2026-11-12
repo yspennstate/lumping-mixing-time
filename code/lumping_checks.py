@@ -5,11 +5,11 @@
 #
 #   python lumping_checks.py data/lumping_checks.json
 #
-# Sections of the output:
-#   comb      the comb chain: both sides of every inequality in the proof of the lower bound
-#   hitting   the inequalities for hitting times of sets, and the chain of inequalities of the
-#             upper bound, on random weighted chains and random partitions
-#   small     a four-state chain lumped to three states
+# On random weighted chains with three to six states and random partitions it checks
+#   - Proposition 4 (hitting times of sets) for every set of blocks and every start,
+#   - tau12(hat X) <= tau0(hat X) <= tau0(X) <= (n-1) tau12(X),
+#   - the upper bound of Theorem 1: tau12(hat X) <= min(2^(n-q), q-1) tau12(X), q blocks.
+# Theorem 2 (one lumping of two states) and the comb are checked in merge_and_comb_checks.py.
 import json
 import random
 import sys
@@ -98,75 +98,6 @@ def lump(W, blocks):
 
 
 # ---------------------------------------------------------------------------
-# The comb chain.  States z_0..z_N, y_0..y_{N-1}, c.
-
-def comb(N, alpha, h, r, ell):
-    names = ['z%d' % k for k in range(N + 1)] + ['y%d' % k for k in range(N)] + ['c']
-    ix = {s: i for i, s in enumerate(names)}
-    n = len(names)
-    W = [[F(0)] * n for _ in range(n)]
-
-    def edge(a, b, wt):
-        W[ix[a]][ix[b]] += wt
-        W[ix[b]][ix[a]] += wt
-
-    for k in range(N):
-        edge('z%d' % k, 'z%d' % (k + 1), r ** k)
-        e = alpha * r ** k
-        edge('y%d' % k, 'z%d' % (k + 1), e)
-        W[ix['y%d' % k]][ix['y%d' % k]] += (h - 1) * e
-    edge('z%d' % N, 'c', r ** N)
-    W[ix['c']][ix['c']] += ell
-    blocks = [[ix['z%d' % k], ix['y%d' % k]] for k in range(N)] + [[ix['z%d' % N]], [ix['c']]]
-    return W, blocks, ix
-
-
-def comb_row(N, t, heavy=True):
-    alpha, h, r = F(t), F(t), F(1 + t ** 3)
-    W0, _, ix = comb(N, alpha, h, r, F(0))
-    rest = sum(sum(row) for row in W0) - r ** N      # total weight of the states other than c
-    if heavy:
-        ell = (N + 2) * t * t * rest - r ** N        # then w_c = (N+2) t^2 (w - w_c)
-    else:
-        ell = F(1)
-    W, blocks, ix = comb(N, alpha, h, r, ell)
-    n = len(W)
-    w, pi = weights(W)
-    delta = (2 + alpha + alpha * h) / (r - 1)
-    c = ix['c']
-    rho = w[c] / r ** N
-    t_orig, arg_o, H = tau12(W)
-    V = lump(W, blocks)
-    t_ind, arg_i, Hh = tau12(V)
-    max_to_c = max(H[i][c] for i in range(n))
-    M = h + (N + 1) * (1 + delta)
-    B = h + (N + 2) * (1 + delta)
-    general = max(B, M + B - rho)
-    low_hit = N * h * alpha / (1 + alpha)
-    low_tau = pi[c] * low_hit
-    hat_hit = Hh[0][len(V) - 1]
-    checks = {
-        'max_i E_i T_c <= h + (N+1)(1+delta)': max_to_c <= M,
-        'tau12 <= max(B, M + B - rho)': t_orig <= general,
-        'hat E_{b0} T_c >= N h alpha/(1+alpha)': hat_hit >= low_hit,
-        'hat tau12 >= pi_c N h alpha/(1+alpha)': t_ind >= low_tau,
-        'hat E_{b0} T_c <= (n-1) max_i E_i T_c': hat_hit <= (n - 1) * max_to_c,
-        'hat tau12 <= (n-1) tau12': t_ind <= (n - 1) * t_orig,
-    }
-    if heavy:
-        checks['rho >= h + (N+1)(1+delta)'] = rho >= M
-        checks['tau12 <= h + (N+2)(1+delta)'] = t_orig <= B
-    return {
-        'N': N, 't': t, 'heavy_end': heavy, 'states': n, 'blocks': len(V), 'pi_c': float(pi[c]),
-        'tau12_original': float(t_orig), 'tau12_induced': float(t_ind),
-        'ratio': float(t_ind / t_orig), 'ratio_guaranteed': float(low_tau / general),
-        'max_hit_c': float(max_to_c), 'hat_hit_c': float(hat_hit),
-        'hit_ratio': float(hat_hit / max_to_c),
-        'checks': checks,
-    }
-
-
-# ---------------------------------------------------------------------------
 # Random chains.
 
 def random_chain(n, rng):
@@ -194,6 +125,7 @@ def hitting_trials(trials, seed):
     count = 0
     ok = True
     ok_tau0 = True
+    ok_upper = True
     for _ in range(trials):
         n = rng.randint(3, 6)
         W = random_chain(n, rng)
@@ -208,6 +140,8 @@ def hitting_trials(trials, seed):
         t_or, _, H = tau12(W)
         if not (t_ind <= tau0(V, Hh) <= tau0(W, H) <= (n - 1) * t_or):
             ok_tau0 = False
+        if not t_ind <= min(2 ** (n - m), m - 1) * t_or:
+            ok_upper = False
         for size in range(1, m):
             for hatA in combinations(range(m), size):
                 A = set(x for a in hatA for x in blocks[a])
@@ -227,43 +161,13 @@ def hitting_trials(trials, seed):
                         worst, worst_at = q, (n, len(A))
     return {'trials': trials, 'seed': seed, 'inequalities_checked': count, 'all_hold': ok,
             'tau12_hat <= tau0_hat <= tau0 <= (n-1) tau12 in every trial': ok_tau0,
+            'tau12_hat <= min(2^(n-q), q-1) tau12 in every trial': ok_upper,
             'largest hat E_a T_A / max_y E_y T_A': float(worst), 'attained_with_(n,|A|)': worst_at}
 
 
-# ---------------------------------------------------------------------------
-# A four-state chain lumped to three states.
-
-def small_example():
-    W = [[F(0)] * 4 for _ in range(4)]
-    for a, b, v in [(0, 2, 1), (1, 2, 1), (1, 3, 109), (2, 3, 54)]:
-        W[a][b] = W[b][a] = F(v)
-    W[1][1] = F(117)
-    W[3][3] = F(10000)
-    t_or, arg_o, _ = tau12(W)
-    V = lump(W, [[0], [1], [2, 3]])
-    t_in, arg_i, _ = tau12(V)
-    return {'tau12_original': str(t_or), 'tau12_induced': str(t_in), 'ratio': str(t_in / t_or),
-            'ratio_float': float(t_in / t_or), 'pair_original': arg_o, 'pair_induced': arg_i}
-
-
 if __name__ == '__main__':
-    out = {'comb': [], 'hitting': None, 'small': None}
-    all_ok = True
-    for N in (1, 2, 3, 4, 6, 8):
-        for t in (4, 16, 64, 256):
-            for heavy in (True, False):
-                row = comb_row(N, t, heavy)
-                all_ok = all_ok and all(row['checks'].values())
-                out['comb'].append(row)
-                print('N=%d t=%-4d heavy=%d  tau %.3f -> %.3f  ratio %.4f  guaranteed %.4f  hitting ratio %.4f  checks %s' % (
-                    N, t, heavy, row['tau12_original'], row['tau12_induced'], row['ratio'],
-                    row['ratio_guaranteed'], row['hit_ratio'], all(row['checks'].values())))
-    out['hitting'] = hitting_trials(400, 20261112)
+    out = {'hitting': hitting_trials(400, 20261112)}
     print('hitting', out['hitting'])
-    out['small'] = small_example()
-    print('small', out['small'])
-    out['all_comb_checks_hold'] = all_ok
-    print('all comb checks hold:', all_ok)
     if len(sys.argv) > 1:
         with open(sys.argv[1], 'w') as fh:
             json.dump(out, fh, indent=1)
