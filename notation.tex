@@ -1,0 +1,38 @@
+\section{Notation}\label{app:notation}
+Symbols are listed in the order in which they first appear. Letters used only inside one proof are not listed.
+
+\medskip
+\begin{center}
+\small
+\begin{tabular}{@{}lp{0.62\textwidth}l@{}}
+\toprule
+Symbol & Meaning & First appears\\
+\midrule
+$I$, $n$ & the state space of $X$ and its number of elements & Section~\ref{sec:intro}\\
+$w_{xy}$, $w_x$, $w$ & the weight of the edge $\{x,y\}$, the weight $\sum_yw_{xy}$ of a state, the total weight & Section~\ref{sec:intro}\\
+$X$, $p_{xy}$, $\pi$ & the random walk on the network, its transition probabilities, its stationary distribution & Section~\ref{sec:intro}\\
+$T_y$, $T_A$ & the hitting time of a state $y$ and of a set $A$ & Section~\ref{sec:intro}\\
+$\E_\mu$, $\Prob_\mu$ & expectation and probability for the chain started from the distribution $\mu$ & Section~\ref{sec:intro}\\
+$f$, $\hI$ & the lumping map and the set onto which it maps $I$ & Section~\ref{sec:intro}\\
+$\hX$, $\hw_{ab}$, $\hpi$ & the induced chain, its weights, its stationary distribution & Section~\ref{sec:intro}\\
+$\hE$, $\widehat T$ & expectation and hitting times for $\hX$ & Section~\ref{sec:intro}\\
+$\tmix$ & the stopping-rule mixing time, given by~\eqref{eq:lw} & Section~\ref{sec:intro}\\
+$\tau^*$, $\tau_0$ & the maximal mean commute time and the average hitting time & Section~\ref{sec:intro}\\
+$\lambda_k$, $\tau_2$ & the $k$-th largest eigenvalue of $(p_{xy})$ and the relaxation time $1/(1-\lambda_2)$ & Section~\ref{sec:intro}\\
+$\tau_c$ & the Cheeger time constant & Section~\ref{sec:intro}\\
+$K(n)$ & the largest factor by which lumping can increase $\tmix$ for chains with at most $n$ states & Section~\ref{sec:intro}\\
+$m$, $q$ & the numbers of states of $X$ and of $\hX$ & Section~\ref{sec:upper}\\
+$\pi_*$ & the smallest stationary probability $\min_x\pi_x$ & Remark~\ref{rem:pimin}\\
+$N$, $r$, $\alpha$, $h$, $\ell$ & the parameters of the comb & Section~\ref{sec:comb}\\
+$z_k$, $y_k$, $c$ & the spine, the teeth and the end state of the comb & Section~\ref{sec:comb}\\
+$b_k$ & the state of $\hX$ obtained by lumping $z_k$ with $y_k$ ($b_N$ is the image of $z_N$) & Section~\ref{sec:comb}\\
+$\delta$, $\rho$, $M$, $B$ & the constants defined before Proposition~\ref{prop:comb} & Section~\ref{sec:comb}\\
+$S_k$ & the total weight of the states separated from $c$ by the edge $\{z_k,z_{k+1}\}$ & \eqref{eq:Sk}\\
+$H(x,j)$, $d(x,j)$ & $\E_xT_j$ and $\E_xT_j-\E_\pi T_j$ & Section~\ref{sec:comb}\\
+$\med(x,k,j)$ & the vertex common to the three paths joining $x$, $k$, $j$ in a tree & \eqref{eq:median}\\
+$X_t$, $\hX_t$, $W$ & the four-state family, its induced chain, and the common denominator in~\eqref{eq:four} & \eqref{eq:four}\\
+$G_Z(x,y)$ & the expected number of visits to $y$ before $T_Z$ for the walk started at $x$ & Section~\ref{sec:hit}\\
+$R(y\lra Z)$ & the effective resistance between $y$ and $Z$ & Section~\ref{sec:hit}\\
+\bottomrule
+\end{tabular}
+\end{center}

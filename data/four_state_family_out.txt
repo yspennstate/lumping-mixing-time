@@ -1,0 +1,10 @@
+t=2: tmix(X)=3.878048780 at (3, 2), tmix(Xhat)=3.707317073 at (1, 0), ratio=0.955974842767, closed forms agree
+t=3: tmix(X)=5.182654402 at (3, 2), tmix(Xhat)=5.905387648 at (1, 0), ratio=1.139452332657, closed forms agree
+t=5: tmix(X)=7.175383831 at (3, 2), tmix(Xhat)=9.980888068 at (1, 0), ratio=1.390990127140, closed forms agree
+t=10: tmix(X)=12.097534397 at (3, 2), tmix(Xhat)=19.997800532 at (1, 0), ratio=1.653047627438, closed forms agree
+t=100: tmix(X)=102.009997959 at (3, 2), tmix(Xhat)=199.999997980 at (1, 0), ratio=1.960592118232, closed forms agree
+t=1000: tmix(X)=1002.000999998 at (3, 2), tmix(Xhat)=1999.999999998 at (1, 0), ratio=1.996005992012, closed forms agree
+t=1000000: tmix(X)=1000002.000001000 at (3, 2), tmix(Xhat)=2000000.000000000 at (1, 0), ratio=1.999996000006, closed forms agree
+all closed forms agree
+X: for every t >= 2 the maximum of E_iT_j - E_piT_j is at (3, 2) and equals the closed form
+Xhat: for every t >= 2 the maximum of E_iT_j - E_piT_j is at (1, 0) and equals the closed form

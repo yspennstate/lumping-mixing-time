@@ -18,29 +18,32 @@
 \newcommand{\hA}{\widehat{A}}
 \newcommand{\hX}{\widehat{X}}
 \newcommand{\lra}{\leftrightarrow}
+\DeclareMathOperator{\med}{med}
 
 \title[Lumping and the mixing time of a reversible chain]{Lumping and the mixing time of a reversible chain:
 the dependence on the number of states}
 \author{Yitzchak Shmalo}
+\address{Einstein Institute of Mathematics, The Hebrew University of Jerusalem, Jerusalem, Israel}
 \date{November 2026}
+\subjclass[2020]{60J10, 05C81}
+\keywords{reversible Markov chain, lumping, mixing time, relaxation time, hitting time}
 
 \begin{document}
 \begin{abstract}
-Aldous and Fill asked whether the stopping-rule mixing time $\tmix$ of a chain obtained from a reversible Markov
-chain by lumping states is at most an absolute constant times that of the original chain. Hermon and Peres answered
-the question in the negative: for random walks on graphs of bounded degree, lumping can increase the mixing time by a
-factor of the order of the logarithm of the number of vertices, and by no more. We consider general reversible chains
-with $n$ states and show that the largest possible factor $K(n)$ satisfies
-$\lfloor (n-2)/2\rfloor\le K(n)\le n-1$. The upper bound follows from standard inequalities and from the inequality
-$\tau_2\le\tmix$ between the relaxation time and the stopping-rule mixing time, for which we give a short proof;
-the lower bound comes from an explicit random walk on a weighted comb. We also show that lumping increases the mean
-hitting time of a set $A$ by a factor of at most $n-|A|$, and that this bound cannot be improved by more than a factor
-of about two.
+Aldous and Fill asked whether lumping states of a reversible Markov chain can increase the stopping-rule mixing time
+$\tmix$ by more than an absolute constant factor. Hermon and Peres showed that for random walks on graphs of bounded
+degree the factor can be of the order of the logarithm of the number of vertices, and no larger. For reversible
+chains with $n$ states we show that the largest possible factor $K(n)$ satisfies
+$\lfloor (n-2)/2\rfloor\le K(n)\le n-2$ for $n\ge4$, and that $K(4)=2$. The upper bound rests on the inequality
+$\tau_2\le\tmix$ between the relaxation time and the mixing time, for which we give a short proof; the lower bound
+comes from a random walk on a weighted comb. We also show that lumping increases the mean hitting time of a set $A$
+by a factor of at most $n-|A|$, and that this bound is sharp up to a factor $2+o(1)$ as the number of states tends to
+infinity.
 \end{abstract}
 \maketitle
 
-\section{Introduction}
-Let $I$ be a finite set with $n\ge2$ elements and let $(w_{xy})_{x,y\in I}$ be a symmetric array of non-negative
+\section{Introduction}\label{sec:intro}
+Let $I$ be a finite set with $n\ge2$ elements and let $(w_{xy})_{x,y\in I}$ be a symmetric array of nonnegative
 weights, loops $w_{xx}>0$ being allowed, such that the graph with edges $\{x,y\}$, $w_{xy}>0$, is connected. Put
 $w_x=\sum_y w_{xy}$ and $w=\sum_x w_x$. The random walk on this network is the Markov chain $X$ on $I$ with transition
 probabilities $p_{xy}=w_{xy}/w_x$; it is reversible with stationary distribution $\pi_x=w_x/w$, and every irreducible
@@ -88,8 +91,8 @@ constant multiple of the relaxation time multiplied by $\log(1/\min_x\pi_x)$; he
 order in that setting~\cite[Remark~1.8]{HP}.
 
 For a random walk on a weighted network $\min_x\pi_x$ can be arbitrarily small, and the bound in terms of
-$\log(1/\min_x\pi_x)$ says nothing about the dependence on the number of states. This note determines that dependence
-up to a factor of about two. Let
+$\log(1/\min_x\pi_x)$ says nothing about the dependence on the number of states. This paper determines that dependence
+up to a factor that tends to two as $n\to\infty$. Let
 \[
 K(n)=\sup\ \frac{\tmix(\hX)}{\tmix(X)} ,
 \]
@@ -99,8 +102,9 @@ $\hX$ of $X$.
 \begin{theorem}\label{thm:main}
 For every $n\ge2$,
 \[
-\max\Bigl(1,\Bigl\lfloor\frac{n-2}{2}\Bigr\rfloor\Bigr)\ \le\ K(n)\ \le\ n-1 .
+\max\Bigl(1,\Bigl\lfloor\frac{n-2}{2}\Bigr\rfloor\Bigr)\ \le\ K(n)\ \le\ \max(1,n-2) .
 \]
+Moreover $K(2)=K(3)=1$ and $K(4)=2$.
 \end{theorem}
 
 The upper bound is a chain of four inequalities, three of which are in~\cite{AF}. The fourth is the following
@@ -137,20 +141,19 @@ with one element such that $\hE_a\widehat{T}_{\hA}\ge(N-\varepsilon)\max_y\E_yT_
 \end{proposition}
 
 Lemma~\ref{lem:relax} and the upper bound of Theorem~\ref{thm:main} are proved in Section~\ref{sec:upper}, the lower
-bound in Section~\ref{sec:comb} and Proposition~\ref{prop:hit} in Section~\ref{sec:hit}. We do not know whether
-$K(n)/n$ converges, nor the value of $K(4)$; an example with four states and ratio above $1.27$ is in
-Remark~\ref{rem:four}.
+bound and the value of $K(4)$ in Section~\ref{sec:comb} and Proposition~\ref{prop:hit} in Section~\ref{sec:hit}.
+We do not know whether $K(n)/n$ converges.
 
 \section{The upper bound}\label{sec:upper}
 
 \begin{proof}[Proof of Lemma~\ref{lem:relax}]
 Replacing $g$ by a multiple we may assume that $g(i)=1=\max_x|g(x)|$. Since $Pg=\lambda g$, the process
 \[
-M_t=g(X_t)+(1-\lambda)\sum_{s<t}g(X_s),\qquad t\ge0,
+\mathcal M_t=g(X_t)+(1-\lambda)\sum_{s<t}g(X_s),\qquad t\ge0,
 \]
 is a martingale with $M_0=1$ under $\Prob_i$, with respect to the filtration generated by the chain and by the
-randomization used by $U$. We may assume that $\E_iU<\infty$. The increments of $M$ are bounded by $2$, so the optional
-stopping theorem gives $\E_iM_U=1$. As $\lambda\ne1$, the function $g$ is orthogonal to the constants in $L^2(\pi)$
+randomization used by $U$. We may assume that $\E_iU<\infty$. The increments of $\mathcal M$ are bounded by $2$, so the optional
+stopping theorem gives $\E_i\mathcal M_U=1$. As $\lambda\ne1$, the function $g$ is orthogonal to the constants in $L^2(\pi)$
 when the chain is reversible, and in general $\sum_x\pi_xg(x)=\sum_x\pi_x(Pg)(x)=\lambda\sum_x\pi_xg(x)$ forces
 $\sum_x\pi_xg(x)=0$. Hence $\E_ig(X_U)=0$ and
 \[
@@ -160,19 +163,21 @@ For a reversible chain all eigenvalues are real; taking $\lambda=\lambda_2$ give
 \end{proof}
 
 \begin{proof}[Proof of the upper bound in Theorem~\ref{thm:main}]
-Let $X$ have $m\le n$ states and let $\hX$ be an induced chain. We claim that
+Let $X$ have $m\le n$ states and let $\hX$ be an induced chain with $q$ states. If $q=m$ the map $f$ is a bijection
+and $\hX$ is $X$ with its states renamed, and if $q=1$ then $\tmix(\hX)=0$. Otherwise $2\le q\le m-1$, and we claim
+that
 \begin{equation}\label{eq:chain}
-\tmix(\hX)\ \le\ \tau_0(\hX)\ \le\ \tau_0(X)\ \le\ (m-1)\,\tau_2(X)\ \le\ (m-1)\,\tmix(X).
+\tmix(\hX)\ \le\ \tau_0(\hX)\ \le\ (q-1)\,\tau_2(\hX)\ \le\ (q-1)\,\tau_2(X)\ \le\ (m-2)\,\tmix(X).
 \end{equation}
 For the first inequality, choose a state $J$ of $\hX$ with distribution $\hpi$, independently of the chain, and stop
 at the hitting time of $J$; the chain is then in the stationary distribution, and the mean of this stopping time is
-$\tau_0(\hX)$ from every starting state~\cite[Section~4.3]{AF}. The second inequality is part of the contraction
-principle~\cite[Proposition~4.44]{AF}: by the random target lemma
-$\tau_0=\tfrac12\sum_{x,y}\pi_x\pi_y(\E_xT_y+\E_yT_x)$, the commute time $\E_xT_y+\E_yT_x$ equals $w$ times the
-effective resistance between $x$ and $y$, and gluing vertices does not increase effective resistances. The third is
-the eigentime identity $\tau_0=\sum_{k\ge2}(1-\lambda_k)^{-1}$~\cite[Proposition~3.13 and Lemma~4.24]{AF}. The fourth
-is Lemma~\ref{lem:relax}. If $\hX$ has one state then $\tmix(\hX)=0$, and $\tmix(X)\ge\tau_2(X)\ge\frac12$, so the
-ratio is well defined; hence $K(n)\le n-1$.
+$\tau_0(\hX)$ from every starting state~\cite[Section~4.3]{AF}. The second is the eigentime identity
+$\tau_0=\sum_{k\ge2}(1-\lambda_k)^{-1}$~\cite[Proposition~3.13 and Lemma~4.24]{AF} for the reversible chain $\hX$,
+each of whose $q-1$ terms is at most $\tau_2(\hX)$. The third is part of the contraction
+principle~\cite[Proposition~4.44]{AF}: a function $g$ on $\hI$ and the function $g\circ f$ on $I$ have the same mean,
+variance and Dirichlet form under $\hpi$ and $\pi$, so the spectral gap of $\hX$ is at least that of $X$. The fourth
+is Lemma~\ref{lem:relax}. As $\tmix(X)\ge\tau_2(X)\ge\frac12$, the ratio is well defined in all cases; hence
+$K(n)\le\max(1,n-2)$. For $n=2,3$ the identity map gives the matching lower bound.
 \end{proof}
 
 \begin{remark}\label{rem:pimin}
@@ -182,7 +187,7 @@ by~\cite[Lemma~4.23]{AF}. Since $\tau_2(\hX)\le\tau_2(X)$ and $\min_a\hpi_a\ge\p
 \tmix(\hX)\ \le\ \frac{4e}{e-1}\Bigl(1+\frac12\log\frac1{\pi_*}\Bigr)\tmix(X),
 \]
 which is the form taken for $\tmix$ by the bound of Hermon and Peres~\cite[Remark~1.8]{HP}. Together with
-Theorem~\ref{thm:main}, the factor is at most $\min\bigl(n-1,\ \frac{4e}{e-1}(1+\frac12\log(1/\pi_*))\bigr)$. For the
+Theorem~\ref{thm:main}, the factor is at most $\min\bigl(\max(1,n-2),\ \frac{4e}{e-1}(1+\frac12\log(1/\pi_*))\bigr)$. For the
 simple random walk on a graph with bounded degrees $\log(1/\pi_*)$ is of order $\log n$, and the examples
 of~\cite{HP} show that this order is attained. In the comb of Section~\ref{sec:comb} with the parameters of
 Table~\ref{tab:comb}, $\log(1/\pi_*)$ is of order $N\log t$.
@@ -238,11 +243,11 @@ S_k=1+(1+\delta)(r^k-1)\le(1+\delta)\,r^k .
 path to $c$ gives $\E_{z_k}T_c\le(N+1)(1+\delta)$ and $\E_{y_k}T_c\le h+N(1+\delta)$.
 
 (ii) Write $H(x,j)=\E_xT_j$ and $d(x,j)=H(x,j)-\E_\pi T_j=\sum_k\pi_k\bigl(H(x,j)-H(k,j)\bigr)$; by~\eqref{eq:lw},
-$\tmix(X)=\max_{x,j}d(x,j)$. For three vertices $x,k,j$ of a tree let $m(x,k,j)$ be the vertex common to the three
-paths joining them. A walk from $x$ to $j$ passes through $m=m(x,k,j)$, so $H(x,j)=H(x,m)+H(m,j)$, and likewise from
-$k$; hence
+$\tmix(X)=\max_{x,j}d(x,j)$. For three vertices $x,k,j$ of a tree let $\med(x,k,j)$ be the vertex common to the three
+paths joining them. A walk from $x$ to $j$ passes through $u=\med(x,k,j)$, so $H(x,j)=H(x,u)+H(u,j)$, and likewise
+from $k$; hence
 \begin{equation}\label{eq:median}
-H(x,j)-H(k,j)=H(x,m)-H(k,m)\le H(x,m).
+H(x,j)-H(k,j)=H(x,u)-H(k,u)\le H(x,u).
 \end{equation}
 If $j=c$ then $d(x,c)\le H(x,c)\le M$ by (i).
 
@@ -252,10 +257,10 @@ level of $j$. By Lemma~\ref{lem:bridge}, $\E_{z_{t+1}}T_{z_t}=(w-S_t)/r^t\le w\,
 H(c,z_p)\le w\sum_{t\ge p}r^{-t}=\frac{r}{r-1}\,w\,r^{-p}\le 2w\,r^{-p},
 \end{equation}
 and $\E_{z_{p+1}}T_{y_p}=(w-w_{y_p})/(\alpha r^p)\le w/(\alpha r^p)$. By~\eqref{eq:median},
-$d(c,j)\le\sum_{k\ne c}\pi_kH(c,m(c,k,j))$. If the level $p$ of $k$ exceeds $q$ then $m(c,k,j)=z_p$; the two states
+$d(c,j)\le\sum_{k\ne c}\pi_kH(c,\med(c,k,j))$. If the level $p$ of $k$ exceeds $q$ then $\med(c,k,j)=z_p$; the two states
 of level $p$ have total weight $r^{p-1}(1+r+\alpha+h\alpha)$, so by the geometric series in~\eqref{eq:down} they
 contribute at most $(1+r+\alpha+h\alpha)/(r-1)=1+\delta$, and there are $N-q$ such levels. If the level of $k$ is at
-most $q$ and $k\ne j$ then $m(c,k,j)=z_q$; the same holds for $k=j$ when $j=z_q$, while for $k=j=y_{q-1}$ the median
+most $q$ and $k\ne j$ then $\med(c,k,j)=z_q$; the same holds for $k=j$ when $j=z_q$, while for $k=j=y_{q-1}$ the median
 is $j$ and $H(c,j)=H(c,z_q)+H(z_q,y_{q-1})$. The states of level at most $q$, with $j$ among them, have total weight
 $S_q$, so by~\eqref{eq:Sk} and~\eqref{eq:down} the terms $\pi_kH(c,z_q)$ contribute at most $2(1+\delta)$. If
 $j=y_{q-1}$ there is in addition the term $\pi_jH(z_q,y_{q-1})$, which is at most $w_{y_{q-1}}/(\alpha r^{q-1})=h$.
@@ -264,10 +269,10 @@ Altogether
 d(c,j)\le h+(N-q+2)(1+\delta)\le B .
 \]
 
-Let $x\ne c$ and $j\ne c$. Since $c$ is a leaf, $m=m(x,c,j)\ne c$, and $m$ lies on the path from $x$ to $c$ and on the
+Let $x\ne c$ and $j\ne c$. Since $c$ is a leaf, $u=\med(x,c,j)\ne c$, and $u$ lies on the path from $x$ to $c$ and on the
 path from $c$ to $j$. By~\eqref{eq:median}, (i) and Lemma~\ref{lem:bridge},
 \[
-H(x,j)-H(c,j)=H(x,m)-H(c,m)\le H(x,c)-H(c,z_N)\le M-\rho ,
+H(x,j)-H(c,j)=H(x,u)-H(c,u)\le H(x,c)-H(c,z_N)\le M-\rho ,
 \]
 so $d(x,j)=H(x,j)-H(c,j)+d(c,j)\le M-\rho+B$. As $d(c,c)\le0$ and $M\le B$, this proves (ii).
 
@@ -325,9 +330,23 @@ the states $2$ and $3$. Then
 \[
 \tmix(X)=\frac{149731115}{63193903}=2.3693\ldots,\qquad \tmix(\hX)=\frac{346900}{114917}=3.0187\ldots,
 \]
-both attained in~\eqref{eq:lw} at $(i,j)=(1,0)$, and the ratio is $419679620/329408453=1.2740\ldots$. Hence
-$K(4)>1.27$.
+both attained in~\eqref{eq:lw} at $(i,j)=(1,0)$, and the ratio is $419679620/329408453=1.2740\ldots$.
 \end{remark}
+
+For $t\ge2$ let $X_t$ be the chain on $\{0,1,2,3\}$ with $w_{02}=w_{12}=1$, $w_{03}=w_{13}=t$, $w_{00}=w_{11}=t^2-1$,
+$w_{33}=t^6$ and all other weights zero, and let $\hX_t$ be obtained by lumping the states $2$ and $3$. With
+$W=t^6+2t^2+4t+2$,
+\begin{equation}\label{eq:four}
+\tmix(X_t)=\frac{(t+1)(t^6+t^5+4t+2)}{W},\qquad \tmix(\hX_t)=\frac{2t(t^6+t^2+3t+2)}{W}.
+\end{equation}
+To prove~\eqref{eq:four}, solve the linear equations for $\E_iT_j$ in both chains; the solutions are rational
+functions of $t$. With $d(i,j)=\E_iT_j-\E_\pi T_j$ as in the proof of Proposition~\ref{prop:comb}, the right side
+of~\eqref{eq:four} is $d(3,2)$ for $X_t$ and $d(1,0)$ for $\hX_t$, and with $t=2+s$ each difference $d(3,2)-d(i,j)$,
+respectively $d(1,0)-d(i,j)$, is a quotient
+of two polynomials in $s$ with nonnegative coefficients, so that by~\eqref{eq:lw} these entries are the maxima for
+every $t\ge2$. The program \texttt{four\_state\_family.py} in the repository named below carries out this computation
+in exact arithmetic. The ratio of the two times in~\eqref{eq:four} tends to $2$ as $t\to\infty$; at $t=10^6$ it is
+$1.999996\ldots$. Hence $K(4)\ge2$, and with the upper bound of Theorem~\ref{thm:main}, $K(4)=2$.
 
 \section{Hitting times of sets}\label{sec:hit}
 For a non-empty proper subset $Z$ of $I$ and $x,y\notin Z$ let $G_Z(x,y)$ be the expected number of visits to $y$ before $T_Z$
@@ -358,10 +377,14 @@ and with $\alpha=h=t$, $r=1+t^3$ the right-hand side tends to $N$ as $t\to\infty
 \end{proof}
 
 The program in the repository named below evaluates both sides of every inequality of Proposition~\ref{prop:comb} in
-rational arithmetic for $N\le8$ and $\alpha=h=t\le256$, and does the same for~\eqref{eq:chain} with $\tau_2$ omitted
+rational arithmetic for the $48$ combs with $N\in\{1,2,3,4,6,8\}$ and $\alpha=h=t\in\{4,16,64,256\}$, and does the
+same for the inequalities $\tmix(\hX)\le\tau_0(\hX)\le\tau_0(X)\le(m-1)\,\tmix(X)$
 and for Proposition~\ref{prop:hit} on $400$ random networks with three to six states and random partitions.
 
 \input{tail}
+
+\appendix
+\input{notation}
 
 \begin{thebibliography}{9}
 \input{bib_main}
