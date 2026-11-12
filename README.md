@@ -13,7 +13,7 @@ This paper treats general reversible chains with n states. Let K(n) be the large
 lumped chain to tau_1^(2) of the original chain. The paper proves
 
 - floor(n/2) <= K(n) <= max_q min(2^(n-q), q-1) <= max(1, n-2); hence K(n) = floor(n/2) for n <= 6 and n = 8,
-  and K(7) is 3 or 4;
+  and 3 <= K(7) <= 4;
 - lumping two states multiplies tau_1^(2) by less than 2, and 2 is the best constant;
 - tau_2 <= tau_1^(2) for every reversible chain (relaxation time against stopping-rule mixing time, with
   constant one);

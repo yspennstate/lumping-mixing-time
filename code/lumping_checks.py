@@ -171,3 +171,5 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         with open(sys.argv[1], 'w') as fh:
             json.dump(out, fh, indent=1)
+    if any(v is False for v in out['hitting'].values()):
+        sys.exit('a checked inequality failed')

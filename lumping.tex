@@ -112,7 +112,7 @@ For every $n\ge2$,
 \[
 \Bigl\lfloor\frac n2\Bigr\rfloor\ \le\ K(n)\ \le\ U(n)\ \le\ \max(1,n-2) .
 \]
-In particular $K(n)=\lfloor n/2\rfloor$ for $2\le n\le6$ and for $n=8$, and $K(7)\in\{3,4\}$.
+In particular $K(n)=\lfloor n/2\rfloor$ for $2\le n\le6$ and for $n=8$, and $3\le K(7)\le4$.
 \end{theorem}
 
 \begin{table}[tbp]
@@ -267,7 +267,8 @@ counted with total weight $S_e/w$.
 \end{proof}
 
 \section{Lumping two states}\label{sec:merge}
-Let $u\ne v$ be states, let $f$ send $u$ and $v$ to one state $\hat v$ and be injective on $J=I\setminus\{u,v\}$, and
+Let $u\ne v$ be states, let $f$ send $u$ and $v$ to one state $\hat v$, send no other state to $\hat v$ and be injective on
+$J=I\setminus\{u,v\}$, and
 let $\hF$ be the matrix $F$ of $\hX$. Let $h_x=\Prob_x(T_u<T_v)$, $R=R(u\lra v)$ and $\bar h=\sum_x\pi_xh_x$, and for
 $i\in I$ put
 \[
@@ -491,7 +492,7 @@ $\hX$ the delays add up along the spine, and the leaf $b$ adds one more $t$.
 \begin{proof}[Proof of the lower bound in Theorem~\ref{thm:main}]
 The identity map gives $K(n)\ge1$. For $n\ge4$ let $N=\lfloor n/2\rfloor-2$. The comb has $2N+4\le n$ states, and by
 Proposition~\ref{prop:comb} the ratio $\tmix(\hX)/\tmix(X)$ tends to $N+2=\lfloor n/2\rfloor$ as $t\to\infty$. The
-values of $K(n)$ follow from Table~\ref{tab:bounds}.
+stated values of $K(n)$ and the bounds on $K(7)$ follow from Table~\ref{tab:bounds}.
 \end{proof}
 
 Table~\ref{tab:comb} gives the values for $t=1000$, computed in rational arithmetic from~\eqref{eq:lw} and rounded;
